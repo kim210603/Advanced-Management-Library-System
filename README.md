@@ -1,1 +1,3 @@
-# advanced-library-system
+# advanced-library-system   
+
+details
