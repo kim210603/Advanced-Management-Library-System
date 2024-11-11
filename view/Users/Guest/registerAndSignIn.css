@@ -1,0 +1,67 @@
+body {
+  background-image: url("/images/libraryBackground.jpg");
+}
+
+body,
+html {
+  /*height: 100%; */
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formBox {
+  /*padding: 50%;*/
+  margin-top: 50px;
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-bottom: 50px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.formsInputs label,
+button {
+  display: block;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.formsInputs input {
+  width: 300px;
+  height: 18px;
+  padding-bottom: 10px;
+  background-color: #d3d3d3;
+}
+
+.formsInputs button {
+  width: 300px;
+  margin-top: 20px;
+  font-size: 16px;
+  background-color: #e8d5ac;
+}
+
+.formsInputs button,
+input {
+  border-radius: 10px;
+  border: none;
+}
+
+.formsInputs p {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.flex-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.flex-container input {
+  width: 138px;
+}
