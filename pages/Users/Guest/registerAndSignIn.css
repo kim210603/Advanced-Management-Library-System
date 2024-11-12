@@ -1,5 +1,7 @@
+/*can do body separetly to not connect to another css file*/
 body {
   background-image: url("/images/libraryBackground.jpg");
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body,
@@ -13,14 +15,20 @@ html {
 
 .formBox {
   /*padding: 50%;*/
-  margin-top: 50px;
-  padding-left: 25%;
-  padding-right: 25%;
+  margin-top: 20%; /*50px*/
+  margin-bottom: 20%; /*the margin stuff spaces*/
+  padding-left: 30%; /*25%*/
+  padding-right: 30%; /*25*/
   padding-bottom: 50px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
+  /*width: 100%;*/
+}
+
+.formBox h1 {
+  padding-top: 50px;
 }
 
 .formsInputs label,
@@ -31,10 +39,12 @@ button {
 }
 
 .formsInputs input {
-  width: 300px;
+  width: 300px; /*100% this and line 27 (width 100% makes the button in center)*/
   height: 18px;
   padding-bottom: 10px;
   background-color: #d3d3d3;
+  /*this is to center inside of an input https://stackoverflow.com/a/945812*/
+  padding: 11px 0px 11px 10px;
 }
 
 .formsInputs button {
@@ -42,6 +52,11 @@ button {
   margin-top: 20px;
   font-size: 16px;
   background-color: #e8d5ac;
+  cursor: pointer;
+}
+
+.formBox button:hover {
+  background-color: #bf996b;
 }
 
 .formsInputs button,
@@ -50,12 +65,14 @@ input {
   border: none;
 }
 
+/*paragraphs, the links are coloured by span inside the html (easier visualisation)*/
 .formsInputs p {
   padding-top: 10px;
   text-align: center;
   font-size: 12px;
 }
 
+/*this stuff is just for dob and gender*/
 .flex-container {
   display: flex;
   gap: 20px;
@@ -64,4 +81,30 @@ input {
 
 .flex-container input {
   width: 138px;
+}
+
+/*making the toggle inline with password*/
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .formBox {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .formsInputs input {
+    width: 90%;
+    padding-right: 10px;
+  }
+  /*to make the gender one inline??*/
+  .flex-container input {
+    width: 130px;
+  }
+
+  .formsInputs button {
+    width: 100%;
+  }
 }
