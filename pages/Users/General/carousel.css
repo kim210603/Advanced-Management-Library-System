@@ -1,0 +1,74 @@
+.list {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+  scrollbar-width: none;
+  list-style: none;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex-shrink: 0;
+  width: 45%;
+  height: 55vh;
+  background-color: #bf996b;
+  scroll-snap-align: center;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 64px;
+  font-weight: bold;
+  cursor: pointer;
+
+  font-size: clamp(
+    16px,
+    4vw,
+    64px
+  ); /* this is so good omg https://developer.mozilla.org/en-US/docs/Web/CSS/clamp*/
+}
+
+/* zoom-in  */
+.content:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.list-wrapper {
+  position: relative;
+}
+
+.button {
+  position: absolute;
+  top: 50%;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #bf996b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  transform: translateY(-50%); /* Centers button vertically */
+  transition: background-color 0.2s;
+}
+
+.button--previous {
+  left: 1.5rem;
+}
+
+.button--next {
+  right: 1.5rem;
+}

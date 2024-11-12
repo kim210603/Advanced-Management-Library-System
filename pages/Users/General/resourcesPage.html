@@ -1,1 +1,127 @@
-<!-- media page -->
+<!-- pick your media -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AML | Resources Page</title>
+    <link rel="stylesheet" href="carousel.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <!--put header from includes here-->
+    </header>
+    <!-- used this heavily for css and html https://www.nieknijland.nl/blog/make-a-responsive-carousel-with-just-css-->
+    <div class="list-wrapper">
+      <!--later can add a nice icon rather then reverse the button in css-->
+      <ul class="list">
+        <li class="item">
+          <!--style here due to having different pictures, may change it later as much repetition-->
+          <div
+            class="content"
+            style="
+              background-image: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/libraryBooks.jpg');
+            "
+          >
+            <p style="color: aliceblue">Books</p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            class="content"
+            style="
+              background-image: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/libraryDvds2.jpg');
+            "
+          >
+            <p style="color: aliceblue">DVDs</p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            class="content"
+            style="
+              background-image: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/libraryCds.jpg');
+            "
+          >
+            <p style="color: aliceblue">CDs</p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            class="content"
+            style="
+              background-image: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/libraryGames.jpg');
+            "
+          >
+            <p style="color: aliceblue">Games</p>
+          </div>
+        </li>
+        <li class="item">
+          <div
+            class="content"
+            style="
+              background-image: linear-gradient(
+                  rgba(0, 0, 0, 0.5),
+                  rgba(0, 0, 0, 0.7)
+                ),
+                url('/images/libraryPeriodicals.jpg');
+            "
+          >
+            <p style="color: aliceblue">Periodicals</p>
+          </div>
+        </li>
+      </ul>
+      <button
+        onclick="handleClick('previous')"
+        class="button button--previous"
+        type="button"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+
+      <button
+        onclick="handleClick('next')"
+        class="button button--next"
+        type="button"
+      >
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+    <script>
+      const list = document.querySelector(".list");
+
+      // We want to know the width of one of the items. We'll use this to decide how many pixels we want our carousel to scroll.
+      const item = document.querySelector(".item");
+      const itemWidth = item.offsetWidth;
+
+      function handleClick(direction) {
+        // Based on the direction we call `scrollBy` with the item width we got earlier
+        if (direction === "previous") {
+          list.scrollBy({ left: -itemWidth, behavior: "smooth" });
+        } else {
+          list.scrollBy({ left: itemWidth, behavior: "smooth" });
+        }
+      }
+    </script>
+  </body>
+</html>
