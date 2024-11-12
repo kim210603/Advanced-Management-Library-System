@@ -32,7 +32,7 @@
             ></i>
           </div>
           <button type="button">Sign in</button>
-          <p>
+          <!--<p>
             <span
               style="
                 color: #0000ff;
@@ -41,28 +41,11 @@
               "
               >Forgot password?</span
             >
-          </p>
+          </p> -->
+          <h5 class="links">Forgot password?</h5>
         </form>
       </div>
     </div>
-
-    <script>
-      // JavaScript to toggle password visibility
-      const passwordInput = document.getElementById("password");
-      const togglePassword = document.getElementById("togglePassword");
-
-      togglePassword.addEventListener("click", function () {
-        // Toggle the type attribute between "password" (hidden) and "text" (visible)
-        const type =
-          passwordInput.getAttribute("type") === "password"
-            ? "text"
-            : "password";
-        passwordInput.setAttribute("type", type);
-
-        // Toggle the eye icon to reflect visibility state
-        this.classList.toggle("fa-eye");
-        this.classList.toggle("fa-eye-slash");
-      });
-    </script>
+    <script src="registerAndSignin.js"></script>
   </body>
 </html>

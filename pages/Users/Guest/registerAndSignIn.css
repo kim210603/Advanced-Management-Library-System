@@ -65,11 +65,23 @@ input {
   border: none;
 }
 
-/*paragraphs, the links are coloured by span inside the html (easier visualisation)*/
-.formsInputs p {
-  padding-top: 10px;
+/*at first had it as p but if h6 then can have a class and more consistent/less repetition*/
+.links {
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+  /*padding-top: 10px;*/
   text-align: center;
-  font-size: 12px;
+}
+
+/*to make sure the link looks not as bold*/
+h6 {
+  font-weight: normal;
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
 }
 
 /*this stuff is just for dob and gender*/
