@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AML | Register Page</title>
+    <link rel="stylesheet" href="registerAndSignIn.css" />
+    <!--for the eye icon-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!--The whole form-->
+    <div class="formBox">
+      <header>
+        <h1>Sign into your account below!</h1>
+      </header>
+      <!--the text inputs-->
+      <div class="formsInputs">
+        <form>
+          <label for="email">Email:</label>
+          <input type="text" name="email" id="email" />
+          <label for="password">Password:</label>
+          <div class="input-wrapper">
+            <input type="password" name="password" id="password" />
+            <i
+              class="fas fa-eye"
+              id="togglePassword"
+              style="cursor: pointer; margin-left: 8px"
+            ></i>
+          </div>
+          <button type="button">Sign in</button>
+          <p>
+            <span
+              style="
+                color: #0000ff;
+                text-decoration: underline;
+                cursor: pointer;
+              "
+              >Forgot password?</span
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript to toggle password visibility
+      const passwordInput = document.getElementById("password");
+      const togglePassword = document.getElementById("togglePassword");
+
+      togglePassword.addEventListener("click", function () {
+        // Toggle the type attribute between "password" (hidden) and "text" (visible)
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+
+        // Toggle the eye icon to reflect visibility state
+        this.classList.toggle("fa-eye");
+        this.classList.toggle("fa-eye-slash");
+      });
+    </script>
+  </body>
+</html>
