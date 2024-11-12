@@ -18,62 +18,102 @@
 /* General Reset */
 body, html, ul, li {
     margin: 0;
-    padding: 0;
+    padding: 0; 
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
   }
   
   /* Footer Styling (Mobile First) */
   footer {
-    background-color: #333; /* Dark background */
-    color: #fff;           /* Light text */
-    text-align: center;
-    padding: 20px 10px;
-    font-size: 14px; /* Smaller font size for mobile */
+    background-color: #E8D5AC; 
+    color: #000000;           
+    padding: 10px;
+    font-size: 14px; 
+    position: fixed; 
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
   }
   
-  /* Footer Content */
-  .footer-content {
-    display: flex;
-    flex-direction: column; /* Stack items for mobile */
+  .footer-nav h3 {
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
   }
+
   
+
+  .head-footer {
+    /* flex: 1; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    padding: 25px 20px;
+    /* box-sizing: border-box; */
+  }
+
+  .flex-icons {
+    list-style-type: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .flex-info {
+    margin-top: 30px;
+    list-style-type: none;
+  }
+
+  .flex-info li {
+    margin-bottom: 10px;
+  }
+
+  .footer-ooter {
+    margin-top: 10px;
+  }
+
   /* Footer Navigation */
-  .footer-nav {
+  .footer-nav ul{
     list-style: none;
     display: flex;
     flex-direction: column; /* Stack links vertically for mobile */
     gap: 10px; /* Space between links */
     margin-top: 10px;
+    width: 100%;
   }
   
   .footer-nav a {
     text-decoration: none;
-    color: #ccc; /* Slightly lighter color for links */
+    color: #000000; /* Slightly lighter color for links */
     transition: color 0.3s ease;
   }
   
   .footer-nav a:hover {
-    color: #fff; /* Brighter on hover */
+    color: #ffffff; /* Brighter on hover */
   }
   
   /* Larger Screens (Enhancements for desktop) */
   @media (min-width: 768px) {
     .footer-content {
-      flex-direction: row; /* Align items horizontally */
+      flex-direction: column; /* Align items horizontally */
       justify-content: space-between;
       align-items: center;
       text-align: left;
+      column-gap: 80px; /* Space between columns */
+
     }
   
     .footer-nav {
-      flex-direction: row; /* Arrange links horizontally */
-      gap: 15px; /* More space between links */
-    }
+      flex-direction: row; 
+      gap: 15px; 
+     } 
   
     footer {
       font-size: 16px; /* Slightly larger font for desktop */
+      /* bottom: 0;
+      width: 100%; */
+      
     }
   }
-  
