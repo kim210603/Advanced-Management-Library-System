@@ -1,0 +1,79 @@
+/*body*/
+
+/*header*/
+
+/*navigation*/
+
+/*search bar*/
+
+/*library events*/
+
+/*carsole*/
+
+/*mainBtn*/
+
+/*footer*/
+
+
+/* General Reset */
+body, html, ul, li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Footer Styling (Mobile First) */
+  footer {
+    background-color: #333; /* Dark background */
+    color: #fff;           /* Light text */
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px; /* Smaller font size for mobile */
+  }
+  
+  /* Footer Content */
+  .footer-content {
+    display: flex;
+    flex-direction: column; /* Stack items for mobile */
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Footer Navigation */
+  .footer-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column; /* Stack links vertically for mobile */
+    gap: 10px; /* Space between links */
+    margin-top: 10px;
+  }
+  
+  .footer-nav a {
+    text-decoration: none;
+    color: #ccc; /* Slightly lighter color for links */
+    transition: color 0.3s ease;
+  }
+  
+  .footer-nav a:hover {
+    color: #fff; /* Brighter on hover */
+  }
+  
+  /* Larger Screens (Enhancements for desktop) */
+  @media (min-width: 768px) {
+    .footer-content {
+      flex-direction: row; /* Align items horizontally */
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+  
+    .footer-nav {
+      flex-direction: row; /* Arrange links horizontally */
+      gap: 15px; /* More space between links */
+    }
+  
+    footer {
+      font-size: 16px; /* Slightly larger font for desktop */
+    }
+  }
+  
