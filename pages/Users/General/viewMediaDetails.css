@@ -1,0 +1,109 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 50px; /*just so it doesnt touch the sides, will need to change when for mobile*/
+}
+
+/*details top*/
+.details-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0;
+  /*makes it go to next line */
+  max-width: 440px;
+  line-height: 1.2;
+  word-wrap: break-word;
+}
+
+h3 {
+  font-size: medium;
+  margin: 0;
+  margin-right: 25px;
+}
+
+/*avaliablity*/
+.low-stock {
+  color: red;
+}
+
+.medium-stock {
+  color: orange;
+}
+
+.high-stock {
+  color: green;
+}
+
+.end-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.details-head button {
+  /*change sizes later*/
+  width: 100px;
+  height: 35px;
+  color: white;
+  font-size: 18px;
+  border-radius: 30px;
+  background-color: #002a60;
+  cursor: pointer;
+  border: none;
+}
+
+.details-head button:hover {
+  background-color: #bf996b;
+}
+
+/*content*/
+/*since we dont have images yet might as well just have a placeholder untill we connect to backend*/
+.content-container {
+  /*padding-top: 20px;*/
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  gap: 20px;
+}
+
+.content-container p {
+  max-width: 50%; /*500px;*/
+  line-height: 1.2;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.placeholder-img {
+  width: 50%; /*768px*/ /*440px*/
+  aspect-ratio: 3 / 4; /*height: 1024px;*/ /*1024px;*/ /*620px*/
+  background-color: lightblue;
+}
+
+#description {
+  max-height: 500px; /*will need to put media@ to make it different*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5em;
+}
+
+#read-more {
+  background-color: #002a60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#read-more:hover {
+  background-color: #004488;
+}
