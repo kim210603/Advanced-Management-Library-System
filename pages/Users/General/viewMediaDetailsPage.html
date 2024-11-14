@@ -8,104 +8,95 @@
   </head>
   <body>
     <div class="details-head">
-      <!--buttons for borrow and reserve, avaliablity and title-->
       <!--will need name of the media here -->
       <h1>This is the coolest title</h1>
       <!--will need number from inventory-->
-      <div class="end-group">
-        <h3 id="availability">Avaliable copies: 10</h3>
-        <button type="button">Borrow</button>
-        <button type="button">Reserve</button>
+      <h3 id="availability">Avaliable copies: 10</h3>
+    </div>
+    <div class="main-content">
+      <div class="content-container">
+        <div class="placeholder-img"></div>
+        <p id="description">
+          <!--for not using https://loremipsum.io/generator?n=5&t=p as placeholder until connection made-->
+          <span style="font-weight: 600; font-size: large"
+            >Description: <br /></span
+          >Lorem ipsum odor amet, consectetuer adipiscing elit. Habitasse
+          curabitur mi scelerisque at nam sollicitudin iaculis. Aptent
+          scelerisque lacus sem rhoncus molestie donec convallis. Pulvinar ut
+          amet pulvinar odio elit accumsan proin. Dapibus id magnis nisi amet
+          ullamcorper vel libero penatibus. Amattis penatibus montes facilisis
+          platea tincidunt neque. Convallis imperdiet porttitor volutpat risus
+          vel at; leo pulvinar. Cubilia proin maecenas bibendum; non praesent
+          neque orci.
+          <br />
+
+          Curabitur phasellus lectus platea dapibus arcu ullamcorper. Donec
+          mollis ultrices consectetur senectus sagittis porttitor scelerisque
+          habitasse vestibulum. Mattis aptent tellus, ridiculus fermentum non
+          enim amet. Sit potenti odio feugiat orci blandit risus orci
+          ullamcorper. Nisi per himenaeos elit luctus congue dignissim. Hac sed
+          phasellus tristique dis tellus venenatis justo aliquet. Suscipit vitae
+          dis dui imperdiet habitasse rhoncus sed aliquam. Suscipit curae vitae
+          dolor dictumst amet litora quis. <br />
+
+          Ex curabitur quisque; enim aenean placerat felis tempus. Per pretium
+          facilisis massa, nunc habitasse odio. Porta natoque luctus torquent
+          nibh fames nisl curae vitae. Semper netus netus viverra, suspendisse
+          potenti himenaeos. Gravida per tempus malesuada dolor etiam maecenas
+          conubia sagittis fringilla. Pulvinar parturient tortor quisque arcu
+          neque pretium iaculis augue erat. Inceptos in placerat aptent
+          imperdiet feugiat condimentum urna. <br />
+
+          Nibh netus posuere torquent; bibendum mollis ullamcorper dui et. Ipsum
+          in facilisis rutrum nostra donec! Curae quisque dis; nunc sollicitudin
+          iaculis morbi. Sagittis himenaeos aenean vestibulum ultrices odio
+          fermentum aenean urna. Sollicitudin nulla netus mus tellus; mollis
+          aliquam per lacus. Netus dui parturient ridiculus massa; volutpat
+          lorem quam. Class lobortis lacinia ante id ornare orci. Nulla maecenas
+          placerat suscipit nisl, nibh duis fringilla blandit. Purus dapibus
+          congue senectus felis sodales arcu et lacinia eu. <br />
+
+          Venenatis elit tristique; ipsum vehicula enim accumsan. Libero pretium
+          hendrerit metus felis commodo parturient neque. Imperdiet dolor
+          finibus phasellus tempor libero rhoncus. Aliquet himenaeos curabitur
+          nascetur varius netus. Adipiscing urna eros venenatis amet, mattis
+          mollis eros feugiat cursus. Vestibulum cubilia aptent consequat
+          pretium ex himenaeos massa. Praesent class iaculis per fermentum et.
+        </p>
+        <button id="read-more">Read more</button>
+      </div>
+      <div class="button-group">
+        <label for="availability-two"><h3>Check stock:</h3></label>
+        <input
+          type="text"
+          id="availability-two"
+          placeholder="Town or Library name"
+          list="towns-list"
+        />
+        <datalist id="towns-list">
+          <option value="Sheffield"></option>
+          <option value="Leeds"></option>
+          <option value="Doncaster"></option>
+          <option value="London"></option>
+          <option value="York"></option>
+        </datalist>
+        <button type="button" id="search-button" onclick="popupSearch()">
+          Search
+        </button>
+        <div id="overlay"></div>
+        <div id="popupDialog">
+          <h2>Stock in these locations:</h2>
+          <div id="libraries-info" id="availability"></div>
+          <button onclick="closeSearch()">Close</button>
+        </div>
+        <h3>Actions for media:</h3>
+        <div class="button-row">
+          <button type="button">Borrow</button>
+          <button type="button">Reserve</button>
+        </div>
       </div>
     </div>
-    <div class="content-container">
-      <div class="placeholder-img"></div>
-      <p id="description">
-        <!--for not using https://loremipsum.io/generator?n=5&t=p as placeholder until connection made-->
-        <span style="font-weight: 600; font-size: large"
-          >Description: <br /></span
-        >Lorem ipsum odor amet, consectetuer adipiscing elit. Habitasse
-        curabitur mi scelerisque at nam sollicitudin iaculis. Aptent scelerisque
-        lacus sem rhoncus molestie donec convallis. Pulvinar ut amet pulvinar
-        odio elit accumsan proin. Dapibus id magnis nisi amet ullamcorper vel
-        libero penatibus. Amattis penatibus montes facilisis platea tincidunt
-        neque. Convallis imperdiet porttitor volutpat risus vel at; leo
-        pulvinar. Cubilia proin maecenas bibendum; non praesent neque orci.
-        <br />
 
-        Curabitur phasellus lectus platea dapibus arcu ullamcorper. Donec mollis
-        ultrices consectetur senectus sagittis porttitor scelerisque habitasse
-        vestibulum. Mattis aptent tellus, ridiculus fermentum non enim amet. Sit
-        potenti odio feugiat orci blandit risus orci ullamcorper. Nisi per
-        himenaeos elit luctus congue dignissim. Hac sed phasellus tristique dis
-        tellus venenatis justo aliquet. Suscipit vitae dis dui imperdiet
-        habitasse rhoncus sed aliquam. Suscipit curae vitae dolor dictumst amet
-        litora quis. <br />
-
-        Ex curabitur quisque; enim aenean placerat felis tempus. Per pretium
-        facilisis massa, nunc habitasse odio. Porta natoque luctus torquent nibh
-        fames nisl curae vitae. Semper netus netus viverra, suspendisse potenti
-        himenaeos. Gravida per tempus malesuada dolor etiam maecenas conubia
-        sagittis fringilla. Pulvinar parturient tortor quisque arcu neque
-        pretium iaculis augue erat. Inceptos in placerat aptent imperdiet
-        feugiat condimentum urna. <br />
-
-        Nibh netus posuere torquent; bibendum mollis ullamcorper dui et. Ipsum
-        in facilisis rutrum nostra donec! Curae quisque dis; nunc sollicitudin
-        iaculis morbi. Sagittis himenaeos aenean vestibulum ultrices odio
-        fermentum aenean urna. Sollicitudin nulla netus mus tellus; mollis
-        aliquam per lacus. Netus dui parturient ridiculus massa; volutpat lorem
-        quam. Class lobortis lacinia ante id ornare orci. Nulla maecenas
-        placerat suscipit nisl, nibh duis fringilla blandit. Purus dapibus
-        congue senectus felis sodales arcu et lacinia eu. <br />
-
-        Venenatis elit tristique; ipsum vehicula enim accumsan. Libero pretium
-        hendrerit metus felis commodo parturient neque. Imperdiet dolor finibus
-        phasellus tempor libero rhoncus. Aliquet himenaeos curabitur nascetur
-        varius netus. Adipiscing urna eros venenatis amet, mattis mollis eros
-        feugiat cursus. Vestibulum cubilia aptent consequat pretium ex himenaeos
-        massa. Praesent class iaculis per fermentum et.
-      </p>
-      <button id="read-more">Read more</button>
-    </div>
-    <script>
-      // the id
-      const availabilityText = document.getElementById("availability");
-
-      // number from h3 text
-      const availableCopies = parseInt(
-        availabilityText.innerText.split(": ")[1],
-        10
-      );
-
-      // the options
-      if (availableCopies === 0) {
-        availabilityText.innerText = "Not Available";
-        availabilityText.classList.add("low-stock");
-      } else if (availableCopies <= 3) {
-        availabilityText.classList.add("low-stock");
-      } else if (availableCopies <= 5) {
-        availabilityText.classList.add("medium-stock");
-      } else {
-        availabilityText.classList.add("high-stock");
-      }
-
-      document
-        .getElementById("read-more")
-        .addEventListener("click", function () {
-          var description = document.getElementById("description");
-          var button = document.getElementById("read-more");
-
-          if (description.style.maxHeight === "none") {
-            // Collapse the paragraph back
-            description.style.maxHeight = "500px"; // Reset to the truncated height
-            button.innerText = "Read more";
-          } else {
-            // Expand the paragraph to show full text
-            description.style.maxHeight = "none"; // Remove the height limitation
-            button.innerText = "Read less"; // Update button text
-          }
-        });
-    </script>
+    <script src="viewMediaDetails.js"></script>
   </body>
 </html>
