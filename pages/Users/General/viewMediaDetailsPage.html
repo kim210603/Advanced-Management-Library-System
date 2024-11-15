@@ -70,33 +70,60 @@
         <input
           type="text"
           id="availability-two"
-          placeholder="Town or Library name"
+          placeholder="Town of library"
           list="towns-list"
         />
         <datalist id="towns-list">
+          <!--figure out how to get all the branch towns into here using js-->
           <option value="Sheffield"></option>
           <option value="Leeds"></option>
           <option value="Doncaster"></option>
           <option value="London"></option>
           <option value="York"></option>
+          <option value="Meow"></option>
         </datalist>
         <button type="button" id="search-button" onclick="popupSearch()">
           Search
         </button>
         <div id="overlay"></div>
         <div id="popupDialog">
-          <h2>Stock in these locations:</h2>
+          <h2>Pick your branch:</h2>
+          <!--
+          <h2>Stock in these locations:</h2> -->
+          <!--for pick up to display pick branch/ library-->
+          <div id="pickup-options" style="display: none; margin-top: 15px">
+            <label for="branch-select">Select a branch:</label>
+            <select id="branch-select"></select>
+          </div>
           <div id="libraries-info" id="availability"></div>
-          <button onclick="closeSearch()">Close</button>
+          <div class="close-button-container">
+            <!--did this to center, perhaps theres a better way-->
+            <button class="close-button" onclick="closeSearch()">Close</button>
+          </div>
         </div>
         <h3>Actions for media:</h3>
         <div class="button-row">
-          <button type="button">Borrow</button>
+          <!--borrow function thing-->
+          <button type="button" id="borrow-button" onclick="popupBorrow()">
+            Borrow
+          </button>
+          <!--wont implement for now-->
           <button type="button">Reserve</button>
+          </div>
+          <div id="overlayBorrow"></div>
+          <div id="popupDialogBorrow">
+            <h2>Pick how to borrow the media:</h2>
+            <button type="button" id="pickup-button">Pick up</button>
+          <button type="button" id="delivery-button">Delivery</button>
+          <!--put content here-->
+            <div class="close-button-container">
+              <button class="close-button" onclick="closeBorrow()">Close</button>
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>
-
     <script src="viewMediaDetails.js"></script>
   </body>
 </html>

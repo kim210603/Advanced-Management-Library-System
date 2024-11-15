@@ -26,19 +26,6 @@ h3 {
   margin-right: 25px;
 }
 
-/*avaliablity*/
-.low-stock {
-  color: red;
-}
-
-.medium-stock {
-  color: orange;
-}
-
-.high-stock {
-  color: green;
-}
-
 .end-group {
   display: flex;
   align-items: center;
@@ -122,7 +109,6 @@ h3 {
 }
 
 /*content*/
-
 .main-content {
   /*display: flex;
   align-items: flex-start; /* Align items at the top */
@@ -193,14 +179,7 @@ h3 {
   background-color: #bf996b;
 }
 
-/*a form to pickup or deliever*/
-/*
-@media (max-width: 860px) {
-  .content-container {
-    flex-direction: column;
-  }
-} */
-
+/*the form*/
 #popupDialog {
   display: none;
   position: fixed;
@@ -212,6 +191,8 @@ h3 {
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  max-width: 400px;
+  width: 100%;
 }
 
 #overlay {
@@ -224,3 +205,104 @@ h3 {
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
 }
+
+/*the drop down options section*/
+#pickup-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 20px;
+}
+
+#branch-select {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+#branch-select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+#popupDialog h2 {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+}
+
+/*the stuff cooking in js showing avaliabilty*/
+/*may need a scroll thingy if theres too many branches but will see*/
+.library-box {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.library-box h4 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.library-box p {
+  margin: 5px 0 0;
+}
+
+#popupDialog .close-button-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+/*avaliablity*/
+.low-stock {
+  color: red;
+}
+
+.medium-stock {
+  color: orange;
+}
+
+.high-stock {
+  color: green;
+}
+
+/* form for borrow */
+#popupDialogBorrow {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+}
+
+#overlayBorrow {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+/*a form to pickup or deliever*/
+/*
+@media (max-width: 860px) {
+  .content-container {
+    flex-direction: column;
+  }
+} */
