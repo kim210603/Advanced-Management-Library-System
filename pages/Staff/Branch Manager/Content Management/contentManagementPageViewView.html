@@ -1,1 +1,68 @@
-<!-- inventory transfer -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="contentManagementPage.css">
+    <link rel="stylesheet" type="text/css" href="transferMediafor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Content Management</title>
+</head>
+<body>
+
+    <main>
+        <div class="wrapper">
+            <div class="box">
+                <input id="search" type="text" placeholder="Search by Media ID">
+                <i class="fa fa-search"></i>
+            </div>
+            <h1>Content Management</h1>
+            
+            <div class="table-container">
+                <div class="table-scroll">
+                    <table id="mediaTable">
+                        <tr>
+                            <th>Media ID</th>
+                            <th>Media Name</th>
+                            <th>Branch ID</th>
+                            <th>Branch Name</th>
+                            <th>Branch Postcode</th>
+                            <th>Media Type</th>
+                            <th>Genre</th>
+                            <th>Media Quantity</th>
+                        </tr>
+                    </table>
+                </div>
+                <button class="Transferbutton" onclick="showForm()">Transfer Media</button>
+            </div>
+        </div>
+
+         
+         <div id="formContainer" class="hidden">
+            <form id="transferMediaForm">
+                <h1>Transfer Media</h1>
+                <label for="mediaID">Media ID:</label>
+                <input type="text" id="mediaID" name="mediaID" required>
+                <label for="branchID">Branch ID:</label>
+                <input type="text" id="branchID" name="branchID" required>
+                <h2>Transfer to</h2>
+                <label for="branchIDto">Branch ID:</label>
+                <input type="text" id="branchIDto" name="branchIDto" required>
+                
+                
+                <div class="button-container">
+                    <button type="submit">Transfer</button>
+                    <button type="button" onclick="hideForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    
+
+    <script src="contentManagementPage.js"></script>
+    <script src="transferMediaform.js"></script>
+    
+    
+</body>
+</html>
