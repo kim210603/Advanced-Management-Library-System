@@ -32,6 +32,11 @@ h3 {
   gap: 10px;
 }
 
+#trolley {
+  color: #002a60;
+  font-size: 1.5em;
+}
+
 /*.details-head button {
   /*change sizes later*/
 /*width: 120px; /*100px*/
@@ -254,8 +259,8 @@ h3 {
 }
 
 #popupDialog .close-button-container {
-  display: flex;
-  justify-content: center;
+  /*display: flex;
+  justify-content: center;*/
   padding-top: 10px;
 }
 
