@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AML | View Details Page</title>
     <link rel="stylesheet" href="viewMediaDetails.css" />
+    <!--trolley-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
   </head>
   <body>
     <div class="details-head">
       <!--will need name of the media here -->
       <h1>This is the coolest title</h1>
-      <!--will need number from inventory-->
-      <h3 id="availability">Avaliable copies: 10</h3>
+      <!--trolley, to have multiple borrowed media-->
+      <i class="fa-solid fa-cart-shopping" id="trolley"></i>
     </div>
     <div class="main-content">
       <div class="content-container">
@@ -98,10 +103,12 @@
           <div id="libraries-info" id="availability"></div>
           <div class="close-button-container">
             <!--did this to center, perhaps theres a better way-->
+              <button>Select</button>
             <button class="close-button" onclick="closeSearch()">Close</button>
           </div>
         </div>
         <h3>Actions for media:</h3>
+
         <div class="button-row">
           <!--borrow function thing-->
           <button type="button" id="borrow-button" onclick="popupBorrow()">
@@ -120,7 +127,6 @@
               <button class="close-button" onclick="closeBorrow()">Close</button>
             </div>
           </div>
-          
         </div>
       </div>
     </div>
