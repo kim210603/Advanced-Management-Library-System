@@ -59,12 +59,20 @@ const mediaData = [
 // Function to populate the table with data
 function populateTable(data) {
     const table = document.getElementById("mediaTable");
+    const currentDate = new Date().toISOString().split('T')[0];
 
     data.forEach(item => {
-        // Create a new row
+       
         const row = document.createElement("tr");
 
-        // Create cells for each data field
+
+        const dateCell = document.createElement("td");
+        const now = new Date();
+        const formattedDate = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getFullYear()).slice(2)}`;
+        dateCell.textContent = formattedDate;
+        row.appendChild(dateCell);
+
+        
         const mediaIDCell = document.createElement("td");
         mediaIDCell.textContent = item.mediaID;
         row.appendChild(mediaIDCell);
