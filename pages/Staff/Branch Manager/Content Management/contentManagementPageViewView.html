@@ -19,7 +19,7 @@
                 <div class="table-scroll">
                     <table id="mediaTable">
                         <tr>
-                            <th>Date</th>
+                            <th>Date Stored</th>
                             <th>Media ID</th>
                             <th>Media Name</th>
                             <th>Branch ID</th>
@@ -56,11 +56,66 @@
         </div>
     </main>
 
-    
-
-    <script src="contentManagementPage.js"></script>
     <script src="transferMediaform.js"></script>
+
     
+    <script type="module">
+        // Imports the functions you need from the Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        //getd data from the database
+        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        //uses values and adds them to the table
+        import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+
+        //the firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
+            authDomain: "amllibrary.firebaseapp.com",
+            projectId: "amllibrary",
+            databaseURL: "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
+            storageBucket: "amllibrary.firebasestorage.app",
+            messagingSenderId: "612435739543",
+            appId: "1:612435739543:web:f22564c7487cc71de47ad2",
+            measurementId: "G-T52D62JS9E"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+    
+        // Reference to the "media" node in the database
+        const databaseRef = ref(database, 'media');
+        onValue(databaseRef, (snapshot) => {
+            const data = snapshot.val();
+            populateTable(data);
+        });
+    
+        // Function to populate the table with Firebase data
+        function populateTable(data) {
+            const tableBody = document.querySelector('table tbody');
+            tableBody.innerHTML = ''; // Clear existing rows before adding new ones
+    
+            for (const key in data) {
+                const record = data[key]; // Access each record
+                const row = document.createElement('tr'); // Create a new row
+    
+                // Populate the row with data
+                row.innerHTML = `
+                    <td>${record.DateStored}</td>
+                    <td>${record.MediaID}</td>
+                    <td>${record.MediaName}</td>
+                    <td>${record.BranchID}</td>
+                    <td>${record.BranchName}</td>
+                    <td>${record.BranchPostcode}</td>
+                    <td>${record.MediaType}</td>
+                    <td>${record.Genre}</td>
+                    <td>${record.MediaQuantity}</td>
+                `;
+                tableBody.appendChild(row); // Add the row to the table
+            }
+        }
+    </script>
     
 </body>
 </html>
