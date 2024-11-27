@@ -16,6 +16,7 @@ togglePassword.addEventListener("click", function () {
 // https://firebase.google.com/docs/auth/web/start
 // https://www.geeksforgeeks.org/getting-started-with-firebase-email-password-authentication/
 // https://www.youtube.com/watch?v=WM178YopjfI
+// https://firebase.google.com/docs/firestore/security/get-started
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
@@ -24,6 +25,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -42,38 +48,51 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // registration logic
 const submit = document.getElementById("submit");
 
-submit.addEventListener("click", function (event) {
+submit.addEventListener("click", async function (event) {
   event.preventDefault();
-  // inputs
-  const fullName = document.getElementById("fullName").value;
+
+  // collect user inputs
+  const fullName = document.getElementById("fullName").value.trim();
   const dob = document.getElementById("dob").value;
   const gender = document.getElementById("gender").value;
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  // input validation
-  if (!email || !password || !fullName || !dob || !gender) {
+  // validates form fields
+  if (!fullName || !dob || !gender || !email || !password) {
     alert("Please fill in all fields.");
     return;
   }
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // user is created successfully
-      const user = userCredential.user;
-      alert("Account created successfully!");
-      window.location.href = "guestHomepage.html";
-    })
+  try {
+    // creates user (auth)
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
-    .catch((error) => {
-      // handle errors
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(`Error: ${errorMessage}`);
-      console.error("Error code:", errorCode);
+    // rules are updated for it, may need to change when editing users
+    // save user details to firestore database (cloud)
+    await setDoc(doc(db, "users", user.uid), {
+      fullName,
+      dob,
+      gender,
+      email,
+      uid: user.uid,
+      createdAt: new Date(), // can use this for the report
     });
+
+    alert("Account created successfully and details saved!");
+    window.location.href = "guestHomepage.html";
+  } catch (error) {
+    console.error("Error during registration:", error);
+    alert(`Error: ${error.message}`);
+  }
 });
