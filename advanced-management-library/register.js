@@ -18,12 +18,11 @@ togglePassword.addEventListener("click", function () {
 // https://www.youtube.com/watch?v=WM178YopjfI
 // https://firebase.google.com/docs/firestore/security/get-started
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-analytics.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import {
   getFirestore,
@@ -31,7 +30,6 @@ import {
   setDoc,
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
   authDomain: "amllibrary.firebaseapp.com",
@@ -46,31 +44,25 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// registration logic
-const submit = document.getElementById("submit");
-
-submit.addEventListener("click", async function (event) {
+document.getElementById("submit").addEventListener("click", async (event) => {
   event.preventDefault();
 
-  // collect user inputs
   const fullName = document.getElementById("fullName").value.trim();
   const dob = document.getElementById("dob").value;
   const gender = document.getElementById("gender").value;
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  // validates form fields
   if (!fullName || !dob || !gender || !email || !password) {
     alert("Please fill in all fields.");
     return;
   }
 
   try {
-    // creates user (auth)
+    // creates the user in Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -78,21 +70,33 @@ submit.addEventListener("click", async function (event) {
     );
     const user = userCredential.user;
 
-    // rules are updated for it, may need to change when editing users
-    // save user details to firestore database (cloud)
+    // stores user details in Firestore
     await setDoc(doc(db, "users", user.uid), {
       fullName,
       dob,
       gender,
       email,
       uid: user.uid,
-      createdAt: new Date(), // can use this for the report
+      createdAt: new Date(),
     });
 
-    alert("Account created successfully and details saved!");
-    window.location.href = "guestHomepage.html";
+    // sends email verification with link
+    await sendEmailVerification(user, {
+      url: "https://amllibrary.web.app/resourcesPage.html", // doesnt work for not but its okay (takes to the guesthomepage for now)
+    });
+
+    // clear after submiting
+    document.getElementById("fullName").value = "";
+    document.getElementById("dob").value = "";
+    document.getElementById("gender").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+    alert(
+      "Your account has been created. A verification email has been sent. Please verify your email to proceed."
+    );
   } catch (error) {
-    console.error("Error during registration:", error);
+    console.error("Error during registration:", error.message);
     alert(`Error: ${error.message}`);
   }
 });
