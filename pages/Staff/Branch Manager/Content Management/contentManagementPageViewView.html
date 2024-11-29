@@ -18,18 +18,24 @@
             <div class="table-container">
                 <div class="table-scroll">
                     <table id="mediaTable">
-                        <tr>
-                            <th>Date Stored</th>
-                            <th>Media ID</th>
-                            <th>Media Name</th>
-                            <th>Branch ID</th>
-                            <th>Branch Name</th>
-                            <th>Branch Postcode</th>
-                            <th>Media Type</th>
-                            <th>Genre</th>
-                            <th>Media Quantity</th>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Date Stored</th>
+                                <th>Media ID</th>
+                                <th>Media Name</th>
+                                <th>Branch ID</th>
+                                <th>Branch Name</th>
+                                <th>Branch Postcode</th>
+                                <th>Media Type</th>
+                                <th>Genre</th>
+                                <th>Media Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
                     </table>
+
                 </div>
                 <button class="Transferbutton" onclick="showForm()">Transfer Media</button>
             </div>
@@ -40,18 +46,26 @@
             <form id="transferMediaForm">
                 <h1>Transfer Media</h1>
                 <label for="mediaID">Media ID:</label>
-                <input type="text" id="mediaID" name="mediaID" required>
-                <label for="branchID">Branch ID:</label>
-                <input type="text" id="branchID" name="branchID" required>
-                <h2>Transfer to</h2>
-                <label for="branchIDto">Branch ID:</label>
-                <input type="text" id="branchIDto" name="branchIDto" required>
+            <select id="mediaID" name="mediaID">
+                <option value="" disabled selected>Select Media ID</option>
+            </select>
+            <label for="branchID">Branch ID:</label>
+            <select id="branchID" name="branchID">
+                <option value="" disabled selected>Select Branch ID</option>
+            </select>
+            <label for="branchIDto">Branch ID:</label>
+            <select id="branchIDto" name="branchIDto">
+                <option value="" disabled selected>Select Branch ID</option>
+            </select>
+            
                 
                 
                 <div class="button-container">
                     <button type="submit">Transfer</button>
                     <button type="button" onclick="hideForm()">Cancel</button>
                 </div>
+
+                <div class="messageContainer"></div>
             </form>
         </div>
     </main>
@@ -62,10 +76,9 @@
     <script type="module">
         // Imports the functions you need from the Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-        //getd data from the database
-        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
-        //uses values and adds them to the table
-        import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+        import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+
+        
 
         //the firebase configuration
         const firebaseConfig = {
@@ -93,14 +106,14 @@
     
         // Function to populate the table with Firebase data
         function populateTable(data) {
-            const tableBody = document.querySelector('table tbody');
-            tableBody.innerHTML = ''; // Clear existing rows before adding new ones
-    
+            const tableBody = document.querySelector('#mediaTable tbody');
+            tableBody.innerHTML = '';
+        
             for (const key in data) {
-                const record = data[key]; // Access each record
-                const row = document.createElement('tr'); // Create a new row
-    
-                // Populate the row with data
+                const record = data[key];
+                const row = document.createElement('tr'); 
+        
+                
                 row.innerHTML = `
                     <td>${record.DateStored}</td>
                     <td>${record.MediaID}</td>
@@ -112,9 +125,179 @@
                     <td>${record.Genre}</td>
                     <td>${record.MediaQuantity}</td>
                 `;
-                tableBody.appendChild(row); // Add the row to the table
+                tableBody.appendChild(row);
             }
         }
+
+        
+        function populateDropdowns(data, selectedBranchID = null, selectedBranchIDto = null) {
+            const mediaIDDropdown = document.getElementById("mediaID");
+            const branchIDDropdown = document.getElementById("branchID");
+            const branchIDtoDropdown = document.getElementById("branchIDto");
+        
+           
+            mediaIDDropdown.innerHTML = `<option value="" disabled selected>Select Media ID</option>`;
+            branchIDDropdown.innerHTML = `<option value="" disabled selected>Select Branch ID</option>`;
+            branchIDtoDropdown.innerHTML = `<option value="" disabled selected>Select Branch ID</option>`;
+        
+           
+            const branchIDsSet = new Set();
+        
+           
+            for (const key in data) {
+                const record = data[key];
+        
+                
+                if (!mediaIDDropdown.querySelector(`option[value="${record.MediaID}"]`)) {
+                    const option = document.createElement("option");
+                    option.value = record.MediaID;
+                    option.textContent = record.MediaID;
+                    mediaIDDropdown.appendChild(option);
+                }
+        
+             
+                branchIDsSet.add(record.BranchID);
+            }
+        
+            
+            const uniqueBranchIDs = Array.from(branchIDsSet).sort();
+        
+          
+            uniqueBranchIDs.forEach(branchID => {
+                if (branchID !== selectedBranchIDto) {
+                   
+                    const option = document.createElement("option");
+                    option.value = branchID;
+                    option.textContent = branchID;
+                    branchIDDropdown.appendChild(option);
+                }
+        
+                if (branchID !== selectedBranchID) {
+                   
+                    const option = document.createElement("option");
+                    option.value = branchID;
+                    option.textContent = branchID;
+                    branchIDtoDropdown.appendChild(option);
+                }
+            });
+        }
+        
+        
+        
+        
+        
+        document.getElementById("transferMediaForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+        
+            const mediaID = document.getElementById("mediaID").value.trim();
+            const branchID = document.getElementById("branchID").value.trim();
+            const branchIDto = document.getElementById("branchIDto").value.trim();
+            const messageContainer = document.querySelector(".messageContainer");
+        
+            messageContainer.innerHTML = ""; 
+        
+            if (!mediaID) {
+                showMessage("Please select a Media ID.", "error");
+                return;
+            }
+            if (!branchID) {
+                showMessage("Please select a Branch ID.", "error");
+                return;
+            }
+            if (!branchIDto) {
+                showMessage("Please select a transfer Branch ID.", "error");
+                return;
+            }
+            if (branchID === branchIDto) {
+                showMessage("Branch IDs cannot be the same.", "error");
+                return;
+            }
+        
+            console.log("Selected MediaID:", mediaID);
+            console.log("Selected BranchID:", branchID);
+            console.log("Selected Transfer BranchID:", branchIDto);
+        
+            
+            onValue(databaseRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    
+                    populateTable(data);
+                    populateDropdowns(data, branchID, branchIDto);  
+                }
+        
+                let isValid = false;
+                let mediaKey = null;
+        
+             
+                for (const key in data) {
+                    const record = data[key];
+                    console.log(`Checking record: MediaID=${record.MediaID}, BranchID=${record.BranchID}`);
+        
+                    if (record.MediaID == mediaID && record.BranchID == branchID) { 
+                        isValid = true;
+                        mediaKey = key;
+                        break;
+                    }
+                }
+        
+                if (!isValid) {
+                    showMessage("The selected Media ID does not match the selected Branch ID.", "error");
+                    return;
+                }
+        
+                
+                const mediaRef = ref(database, `media/${mediaKey}`);
+                update(mediaRef, { BranchID: branchIDto })
+                .then(() => {
+                    showMessage("Media transferred successfully!", "success");
+            
+                    
+                    onValue(databaseRef, (snapshot) => {
+                        const updatedData = snapshot.val();
+                        populateTable(updatedData);
+                        populateDropdowns(updatedData, null, null); 
+                    }, { onlyOnce: true });
+                })
+                .catch((error) => {
+                    console.error("Error updating media:", error);
+                    showMessage("Failed to transfer media. Try again later.", "error");
+                });
+            
+            }, { onlyOnce: true });
+        });
+        
+        
+        
+        
+        
+                function showMessage(message, type) {
+                    const messageContainer = document.querySelector(".messageContainer");
+                
+                  
+                    messageContainer.innerHTML = "";
+                
+                    
+                    const messageDiv = document.createElement("div");
+                    messageDiv.textContent = message;
+                    messageDiv.className = `message ${type}`; 
+                
+                   
+                    messageContainer.appendChild(messageDiv);
+                
+                    
+                    setTimeout(() => {
+                        messageContainer.innerHTML = "";
+                    }, 5000);
+                }
+                
+
+                onValue(databaseRef, (snapshot) => {
+                    const data = snapshot.val();
+                    populateTable(data); 
+                    populateDropdowns(data); 
+                });
+        
     </script>
     
 </body>
