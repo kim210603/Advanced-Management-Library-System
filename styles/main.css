@@ -35,6 +35,28 @@ header img {
   margin-right: auto;
 }
 
+.user-icon {
+  position: absolute; 
+  top: 20px;          
+  right: 20px;        
+  width: 40px;
+  height: 40px;
+  cursor: pointer;    
+  z-index: 1;         
+  border-radius: 50%; 
+  border: 2px solid #000; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-icon i {
+  font-size: 28px;    
+  color: #000;       
+}
+
+
+
 /* Navigation bar */
 nav {
   background-color: darkblue;
@@ -44,6 +66,7 @@ nav {
   width: fit-content;
   max-width: 90%;
   height: auto;
+  margin-top: 20px;
 }
 
 
@@ -67,7 +90,7 @@ nav ul li a {
   text-transform: uppercase;
 }
 
-a.active, a:hover {
+nav ul li a.active, nav ul li a:hover {
   background: #E8D5AC;
   color: black;
   transition: 0.5s;
