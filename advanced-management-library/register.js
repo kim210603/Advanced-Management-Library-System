@@ -17,7 +17,10 @@ togglePassword.addEventListener("click", function () {
 // https://www.geeksforgeeks.org/getting-started-with-firebase-email-password-authentication/
 // https://www.youtube.com/watch?v=WM178YopjfI
 // https://firebase.google.com/docs/firestore/security/get-started
+// https://firebase.google.com/docs/cli#sign-in-test-cli
 
+// also index will be guestHomepage but for now wont touch it
+// moved it to hosting to not have it as local and be able open the email link on another computer
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
 import {
   getAuth,
@@ -82,7 +85,7 @@ document.getElementById("submit").addEventListener("click", async (event) => {
 
     // sends email verification with link
     await sendEmailVerification(user, {
-      url: "https://amllibrary.web.app/resourcesPage.html", // doesnt work for not but its okay (takes to the guesthomepage for now)
+      url: "https://amllibrary.web.app/resourcesPage.html", // sends to resources as we dont have separate homepages pages yet, but it works now
     });
 
     // clear after submiting
