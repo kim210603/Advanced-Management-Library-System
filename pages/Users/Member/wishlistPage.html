@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css" />
+</head>
+<body>
+    <!-- Dynamically loaded header -->
+    <div id="site-header">
+        <script>
+            async function loadHeader() {
+                try {
+                    const response = await fetch('/includes/header.html');
+                    if (!response.ok) throw new Error('Header file could not be loaded.');
+
+                    const headerHTML = await response.text();
+                    const headerLocation = document.getElementById('site-header');
+                    console.log(headerLocation);
+                    headerLocation.innerHTML = headerHTML;
+
+
+
+
+                    // let headerHeight = document.querySelector('header').offsetHeight;
+                    // headerLocation.style.marginTop = `${headerHeight}px`;
+
+
+                    // const headerHTML = await response.text();
+                    // document.getElementById('site-header').innerHTML = headerHTML;
+
+                    // // Adjust tabs to appear below the entire header
+                    // const headerHeight = document.getElementById('site-header').offsetHeight;
+                    // const tabsContainer = document.getElementById('tabs-container');
+                    // tabsContainer.style.marginTop = `${headerHeight}px`; // Push tabs below header
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            loadHeader();
+        </script>
+    </div>
+
+    <!-- Header -->
+
+
+    <!-- Tabs -->
+    <div id="tabs-container" class="tabs-container">
+        <ul class="tabs">
+            <li class="tab active"><a href="#wishlist">My Wishlist</a></li>
+            <li class="tab"><a href="#borrowed">Borrowed Media</a></li>
+            <li class="tab"><a href="#reserved">Reserved Media</a></li>
+            <li class="tab"><a href="#reviews">Media Reviews</a></li>
+            <li class="tab"><a href="#details">Account Details</a></li>
+
+        </ul>
+    </div>
+
+    <!-- Separate Container for Tab Content -->
+    <div id="tab-content-container" class="tab-content-container">
+        <div id="wishlist" class="tab-content active">
+            <h2>My Wishlist</h2>
+            <p>Content for the My Wishlist tab goes here.</p>
+        </div>
+        <div id="borrowed" class="tab-content">
+            <h2>Borrowed Media</h2>
+            <p>Content for the Borrowed Media tab goes here.</p>
+        </div>
+        <div id="reserved" class="tab-content">
+            <h2>Reserved Media</h2>
+            <p>Content for the Reserved Media tab goes here.</p>
+        </div>
+        <div id="reviews" class="tab-content">
+            <h2>Media Reviews</h2>
+            <p>Content for the Media Reviews tab goes here.</p>
+        </div>
+        <div class="aDetails-section">
+            <div id="details" class="tab-content">
+                <h2>Account Details</h2>
+                <!-- <p>Content for the Account Details tab goes here.</p> -->
+                <div class="savedForm">
+                    <form>
+                        <div>
+                            <label for="savedName">Full Name:</label> <br>
+                            <input type="text" id="savedName" placeholder="John Doe" readonly> <br>
+                        </div>
+                        <div>
+                            <label for="savedDOB">Date of Birth:</label> <br>
+                            <input type="datetime" id="savedDOB" placeholder="16/10/2003" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedGender">Gender:</label> <br>
+                        <input type="text" id="savedGender" placeholder="Female" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedEmail">Email:</label> <br>
+                        <input type="email" id="savedEmail" placeholder="JohnDoe@yahoo.com" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedPassword">Password:</label> <br>
+                        <input type="password" id="savedGender" placeholder="****" readonly><br>
+                        </div>
+
+                        <div class="aDetails-btn">
+                            <button type="button">Edit</button>
+                        </div>
+                    </form>
+    
+                </div>
+        </div>
+        </div>
+    </div>
+
+    <div id="site-header"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    // Remove 'active' class from all tabs and contents
+                    tabs.forEach((t) => t.classList.remove('active'));
+                    contents.forEach((c) => c.classList.remove('active'));
+
+                    // Add 'active' class to the clicked tab and its corresponding content
+                    tab.classList.add('active');
+                    const target = document.querySelector(tab.querySelector('a').getAttribute('href'));
+                    target.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+
+<footer>
+    <div id="site-footer">
+    </div>
+</footer>
+</body>
+
+</html>
