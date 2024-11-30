@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishlist</title>
     <link rel="stylesheet" type="text/css" href="/styles/main.css"/>
+    <link rel="stylesheet" href="/includes/memberHeader.html">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css" />
 </head>
@@ -15,7 +16,7 @@
         <script>
             async function loadHeader() {
                 try {
-                    const response = await fetch('/includes/header.html');
+                    const response = await fetch('/includes/memberHeader.html');
                     if (!response.ok) throw new Error('Header file could not be loaded.');
 
                     const headerHTML = await response.text();
@@ -102,7 +103,7 @@
                         </div>
                         <div>
                             <label for="savedPassword">Password:</label> <br>
-                        <input type="password" id="savedGender" placeholder="****" readonly><br>
+                        <input type="password" id="savedPassword" placeholder="****" readonly><br>
                         </div>
 
                         <div class="aDetails-btn">
@@ -114,8 +115,6 @@
         </div>
         </div>
     </div>
-
-    <div id="site-header"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
