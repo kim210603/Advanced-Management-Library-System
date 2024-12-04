@@ -14,7 +14,7 @@
   <body>
     <div class="details-head">
       <!--will need name of the media here -->
-      <h1>This is the coolest title</h1>
+      <h1 id="media-name">Loading...</h1> <!--need a faster way of doing this-->
       <!--trolley, to have multiple borrowed media-->
       <i class="fa-solid fa-cart-shopping" id="trolley"></i>
     </div>
@@ -80,12 +80,6 @@
         />
         <datalist id="towns-list">
           <!--figure out how to get all the branch towns into here using js-->
-          <option value="Sheffield"></option>
-          <option value="Leeds"></option>
-          <option value="Doncaster"></option>
-          <option value="London"></option>
-          <option value="York"></option>
-          <option value="Meow"></option>
         </datalist>
         <button type="button" id="search-button" onclick="popupSearch()">
           Search
@@ -93,9 +87,6 @@
         <div id="overlay"></div>
         <div id="popupDialog">
           <h2>Pick your branch:</h2>
-          <!--
-          <h2>Stock in these locations:</h2> -->
-          <!--for pick up to display pick branch/ library-->
           <div id="pickup-options" style="display: none; margin-top: 15px">
             <label for="branch-select">Select a branch:</label>
             <select id="branch-select"></select>
@@ -104,7 +95,7 @@
           <div class="close-button-container">
             <!--did this to center, perhaps theres a better way-->
               <button>Select</button>
-            <button class="close-button" onclick="closeSearch()">Close</button>
+            <button id="close-button" onclick="closeSearch()">Close</button>
           </div>
         </div>
         <h3>Actions for media:</h3>
@@ -131,5 +122,6 @@
       </div>
     </div>
     <script src="viewMediaDetails.js"></script>
+    <script type="module" src="mediaDetails.js"></script>
   </body>
 </html>
