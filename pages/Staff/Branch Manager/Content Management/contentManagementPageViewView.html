@@ -77,10 +77,8 @@
         // Imports the functions you need from the Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
         import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
-
-        
-
-        //the firebase configuration
+    
+        // Initialize Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
             authDomain: "amllibrary.firebaseapp.com",
@@ -95,7 +93,6 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
     
         // Reference to the "media" node in the database
         const databaseRef = ref(database, 'media');
@@ -104,16 +101,20 @@
             populateTable(data);
         });
     
+        
+        Array.prototype.unique = function() {
+            return [...new Set(this)];
+        };
+    
         // Function to populate the table with Firebase data
         function populateTable(data) {
             const tableBody = document.querySelector('#mediaTable tbody');
             tableBody.innerHTML = '';
-        
+    
             for (const key in data) {
                 const record = data[key];
-                const row = document.createElement('tr'); 
-        
-                
+                const row = document.createElement('tr');
+    
                 row.innerHTML = `
                     <td>${record.DateStored}</td>
                     <td>${record.MediaID}</td>
@@ -129,51 +130,54 @@
             }
         }
 
+        Array.prototype.unique = function() {
+            return [...new Set(this.filter(item => item !== undefined))];
+        };
+    
         
         function populateDropdowns(data, selectedBranchID = null, selectedBranchIDto = null) {
             const mediaIDDropdown = document.getElementById("mediaID");
             const branchIDDropdown = document.getElementById("branchID");
             const branchIDtoDropdown = document.getElementById("branchIDto");
-        
-           
+
+            // Clear dropdowns
             mediaIDDropdown.innerHTML = `<option value="" disabled selected>Select Media ID</option>`;
             branchIDDropdown.innerHTML = `<option value="" disabled selected>Select Branch ID</option>`;
             branchIDtoDropdown.innerHTML = `<option value="" disabled selected>Select Branch ID</option>`;
-        
-           
+
             const branchIDsSet = new Set();
-        
-           
+
+            // Populate the mediaID dropdown and collect branch IDs
             for (const key in data) {
                 const record = data[key];
-        
-                
+
+                // Add MediaID to the dropdown
                 if (!mediaIDDropdown.querySelector(`option[value="${record.MediaID}"]`)) {
                     const option = document.createElement("option");
                     option.value = record.MediaID;
                     option.textContent = record.MediaID;
                     mediaIDDropdown.appendChild(option);
                 }
-        
-             
-                branchIDsSet.add(record.BranchID);
+
+                // Add branchID to the set to prevent duplicates (excluding undefined)
+                if (record.BranchID !== undefined) {
+                    branchIDsSet.add(record.BranchID);
+                }
             }
-        
-            
-            const uniqueBranchIDs = Array.from(branchIDsSet).sort();
-        
-          
+
+            // Convert the set to an array and remove duplicates using the unique method
+            const uniqueBranchIDs = Array.from(branchIDsSet).filter(item => item !== undefined);  // Filter out undefined values
+
+            // Add unique branch IDs to the dropdowns
             uniqueBranchIDs.forEach(branchID => {
                 if (branchID !== selectedBranchIDto) {
-                   
                     const option = document.createElement("option");
                     option.value = branchID;
                     option.textContent = branchID;
                     branchIDDropdown.appendChild(option);
                 }
-        
+
                 if (branchID !== selectedBranchID) {
-                   
                     const option = document.createElement("option");
                     option.value = branchID;
                     option.textContent = branchID;
@@ -181,21 +185,19 @@
                 }
             });
         }
-        
-        
-        
-        
-        
+
+    
+        // Handle the transfer form submission
         document.getElementById("transferMediaForm").addEventListener("submit", function (event) {
             event.preventDefault();
-        
+    
             const mediaID = document.getElementById("mediaID").value.trim();
             const branchID = document.getElementById("branchID").value.trim();
             const branchIDto = document.getElementById("branchIDto").value.trim();
             const messageContainer = document.querySelector(".messageContainer");
-        
-            messageContainer.innerHTML = ""; 
-        
+    
+            messageContainer.innerHTML = "";
+    
             if (!mediaID) {
                 showMessage("Please select a Media ID.", "error");
                 return;
@@ -212,93 +214,77 @@
                 showMessage("Branch IDs cannot be the same.", "error");
                 return;
             }
-        
+    
             console.log("Selected MediaID:", mediaID);
             console.log("Selected BranchID:", branchID);
             console.log("Selected Transfer BranchID:", branchIDto);
-        
-            
+    
             onValue(databaseRef, (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
-                    
-                    populateTable(data);
-                    populateDropdowns(data, branchID, branchIDto);  
-                }
-        
-                let isValid = false;
-                let mediaKey = null;
-        
-             
-                for (const key in data) {
-                    const record = data[key];
-                    console.log(`Checking record: MediaID=${record.MediaID}, BranchID=${record.BranchID}`);
-        
-                    if (record.MediaID == mediaID && record.BranchID == branchID) { 
-                        isValid = true;
-                        mediaKey = key;
-                        break;
+                    let isValid = false;
+                    let mediaKey = null;
+    
+                    for (const key in data) {
+                        const record = data[key];
+    
+                        if (record.MediaID == mediaID && record.BranchID == branchID) {
+                            isValid = true;
+                            mediaKey = key;
+                            break;
+                        }
                     }
+    
+                    if (!isValid) {
+                        showMessage("The selected Media ID does not match the selected Branch ID.", "error");
+                        return;
+                    }
+    
+                    // Perform the transfer
+                    const mediaRef = ref(database, `media/${mediaKey}`);
+                    update(mediaRef, { BranchID: branchIDto })
+                        .then(() => {
+                            showMessage("Media transferred successfully!", "success");
+    
+                            onValue(databaseRef, (snapshot) => {
+                                const updatedData = snapshot.val();
+                                populateTable(updatedData);
+                                populateDropdowns(updatedData, null, null);
+                            }, { onlyOnce: true });
+                        })
+                        .catch((error) => {
+                            console.error("Error updating media:", error);
+                            showMessage("Failed to transfer media. Try again later.", "error");
+                        });
                 }
-        
-                if (!isValid) {
-                    showMessage("The selected Media ID does not match the selected Branch ID.", "error");
-                    return;
-                }
-        
-                
-                const mediaRef = ref(database, `media/${mediaKey}`);
-                update(mediaRef, { BranchID: branchIDto })
-                .then(() => {
-                    showMessage("Media transferred successfully!", "success");
-            
-                    
-                    onValue(databaseRef, (snapshot) => {
-                        const updatedData = snapshot.val();
-                        populateTable(updatedData);
-                        populateDropdowns(updatedData, null, null); 
-                    }, { onlyOnce: true });
-                })
-                .catch((error) => {
-                    console.error("Error updating media:", error);
-                    showMessage("Failed to transfer media. Try again later.", "error");
-                });
-            
             }, { onlyOnce: true });
         });
-        
-        
-        
-        
-        
-                function showMessage(message, type) {
-                    const messageContainer = document.querySelector(".messageContainer");
-                
-                  
-                    messageContainer.innerHTML = "";
-                
-                    
-                    const messageDiv = document.createElement("div");
-                    messageDiv.textContent = message;
-                    messageDiv.className = `message ${type}`; 
-                
-                   
-                    messageContainer.appendChild(messageDiv);
-                
-                    
-                    setTimeout(() => {
-                        messageContainer.innerHTML = "";
-                    }, 5000);
-                }
-                
-
-                onValue(databaseRef, (snapshot) => {
-                    const data = snapshot.val();
-                    populateTable(data); 
-                    populateDropdowns(data); 
-                });
-        
+    
+        // Show message function
+        function showMessage(message, type) {
+            const messageContainer = document.querySelector(".messageContainer");
+    
+            messageContainer.innerHTML = "";
+    
+            const messageDiv = document.createElement("div");
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${type}`;
+    
+            messageContainer.appendChild(messageDiv);
+    
+            setTimeout(() => {
+                messageContainer.innerHTML = "";
+            }, 5000);
+        }
+    
+        onValue(databaseRef, (snapshot) => {
+            const data = snapshot.val();
+            populateTable(data);
+            populateDropdowns(data);
+        });
+    
     </script>
+    
     
 </body>
 </html>
