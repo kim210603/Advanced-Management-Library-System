@@ -109,6 +109,9 @@
                         <div class="aDetails-btn">
                             <button type="button">Edit</button>
                         </div>
+                    <div class="aDetails-btn">
+                        <button type="button">Save changes</button>
+                    </div>
                     </form>
     
                 </div>
@@ -146,3 +149,75 @@
 </body>
 
 </html>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
+        authDomain: "amllibrary.firebaseapp.com",
+        databaseURL: "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "amllibrary",
+        storageBucket: "amllibrary.firebasestorage.app",
+        messagingSenderId: "612435739543",
+        appId: "1:612435739543:web:f22564c7487cc71de47ad2",
+        measurementId: "G-T52D62JS9E",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                document.getElementById("savedName").value = userData.fullName;
+                document.getElementById("savedDOB").value = userData.dob;
+                document.getElementById("savedGender").value = userData.gender;
+                document.getElementById("savedEmail").value = userData.email;
+                document.getElementById("savedPassword").value = userData.password; // Placeholder for password
+            } else {
+                console.log("No document found!");
+            }
+        } else {
+            console.log("No user is signed in.");
+        }
+    });
+</script>
+<script type="module">
+    document.querySelector('.aDetails-btn button[type="button"]').addEventListener('click', () => {
+        document.querySelectorAll('.savedForm input').forEach(input => {
+            input.removeAttribute('readonly');
+        });
+    });
+
+    document.querySelector('.aDetails-btn button[type="button"]:nth-child(2)').addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (user) {
+            const updatedData = {
+                fullName: document.getElementById('savedName').value,
+                dob: document.getElementById('savedDOB').value,
+                gender: document.getElementById('savedGender').value,
+                email: document.getElementById('savedEmail').value,
+                password: document.getElementById('savedPassword').value // Placeholder for password
+            };
+
+            try {
+                await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
+                alert('Changes saved successfully!');
+                document.querySelectorAll('.savedForm input').forEach(input => {
+                    input.setAttribute('readonly', true);
+                });
+            } catch (error) {
+                console.error("Error updating document: ", error);
+                alert('Failed to save changes.');
+            }
+        } else {
+            console.log("No user is signed in.");
+        }
+    });
+</script></script>
