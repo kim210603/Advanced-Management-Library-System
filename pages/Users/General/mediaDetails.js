@@ -36,8 +36,8 @@ function loadMediaName() {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const mediaArray = snapshot.val();
-        if (mediaArray && mediaArray.length > 3) {
-          const firstMedia = mediaArray[3]; // to do for testing as no linking yet
+        if (mediaArray && mediaArray.length > 1) {
+          const firstMedia = mediaArray[1]; // to do for testing as no linking yet
           mediaNameElement.textContent =
             firstMedia.MediaName || "No media name available";
         }
@@ -78,10 +78,8 @@ function loadCities() {
     });
 }
 
-// media avaliablity
 function searchByCity() {
   const cityName = cityInput.value.trim();
-  const targetMediaID = 3; // to do for testing as no linking yet
   librariesInfo.innerHTML = "";
 
   if (!cityName) {
@@ -95,19 +93,17 @@ function searchByCity() {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const mediaArray = snapshot.val();
-        let mediaFound = false;
-
-        for (const media of mediaArray) {
-          if (
+        const filteredMedia = mediaArray.filter(
+          (media) =>
             media &&
             media.BranchCity === cityName &&
-            media.MediaID === targetMediaID
-          ) {
-            mediaFound = true;
+            media.MediaName === "Pride and Prejudice" //best way to do it for now as it will pull up other branches too with the same title
+        );
 
-            // Update Media Name
-            mediaNameElement.textContent =
-              media.MediaName || "Media Name not available";
+        if (filteredMedia.length > 0) {
+          filteredMedia.forEach((media) => {
+            const libraryBox = document.createElement("div");
+            libraryBox.className = "library-box";
 
             let stockClass = "";
             let stockText = "";
@@ -126,19 +122,15 @@ function searchByCity() {
               stockText = `${media.MediaQuantity} (High stock)`;
             }
 
-            // populates the details needed
-            const libraryBox = document.createElement("div");
-            libraryBox.className = "library-box";
             libraryBox.innerHTML = `
-                <h4>Branch Name: ${media.BranchName}</h4>
-                <p class="${stockClass}"><strong>Stock:</strong> ${stockText}</p>
-              `;
-            librariesInfo.appendChild(libraryBox);
-          }
-        }
+                    <h4>Branch Name: ${media.BranchName}</h4>
+                    <p class="${stockClass}"><strong>Stock:</strong> ${stockText}</p>
+                  `;
 
-        if (!mediaFound) {
-          librariesInfo.innerHTML = `<p>No media found for MediaID ${targetMediaID} in ${cityName}.</p>`;
+            librariesInfo.appendChild(libraryBox);
+          });
+        } else {
+          librariesInfo.innerHTML = `<p>No media found for "Pride and Prejudice" in ${cityName}.</p>`;
         }
       } else {
         librariesInfo.innerHTML = `<p>No media data available in the database.</p>`;
@@ -148,6 +140,91 @@ function searchByCity() {
       console.error("Error fetching media data:", error);
     });
 }
+
+const branchSelect = document.getElementById("branch-select");
+const pickupOptions = document.getElementById("pickup-options");
+
+function loadBranches(cityName) {
+  const mediaRef = ref(database, "media");
+
+  get(mediaRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const mediaArray = snapshot.val();
+
+        const filteredBranches = mediaArray.filter(
+          (media) =>
+            media &&
+            media.BranchCity === cityName &&
+            media.MediaName === "Pride and Prejudice" &&
+            media.MediaQuantity > 0
+        );
+
+        branchSelect.innerHTML = "";
+
+        if (filteredBranches.length > 0) {
+          // populate drop down if avaliable
+          filteredBranches.forEach((branch) => {
+            const option = document.createElement("option");
+            option.value = branch.BranchName;
+            option.textContent = branch.BranchName;
+            branchSelect.appendChild(option);
+          });
+
+          pickupOptions.style.display = "block";
+        } else {
+          pickupOptions.style.display = "none";
+          console.warn(
+            `No branches found in ${cityName} with the selected media.`
+          );
+        }
+      } else {
+        console.error("No media data available in the database.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching branch data:", error);
+    });
+}
+
+document.getElementById("search-button").addEventListener("click", () => {
+  const cityName = cityInput.value.trim();
+  if (cityName) {
+    loadBranches(cityName);
+  } else {
+    console.warn("Please enter a city name to search for branches.");
+  }
+});
+
+document.getElementById("selected-branch").addEventListener("click", () => {
+  const selectedBranch = branchSelect.value;
+
+  const selectedBranchLabel = document.getElementById("selected-branch-label");
+  const selectedBranchLabelContainer = document.getElementById(
+    "selected-branch-label-container"
+  );
+
+  const selectedBranchBorrowLabel = document.getElementById(
+    "selected-branch-borrow-label"
+  );
+
+  if (selectedBranch) {
+    selectedBranchLabel.textContent = selectedBranch;
+    selectedBranchBorrowLabel.textContent = selectedBranch;
+    selectedBranchBorrowLabel.style.color = "green";
+
+    selectedBranchLabelContainer.style.display = "block";
+
+    const popupDialog = document.getElementById("popupDialog");
+    popupDialog.style.display = "none";
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "none";
+  } else {
+    console.warn("No branch selected.");
+    selectedBranchBorrowLabel.textContent = "Haven't selected a branch yet";
+    selectedBranchBorrowLabel.style.color = "red";
+  }
+});
 
 // event listener to search by city
 document
