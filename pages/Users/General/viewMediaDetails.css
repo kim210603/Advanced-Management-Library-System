@@ -233,9 +233,8 @@ h3 {
 }
 
 #popupDialog h2 {
-  font-size: 1.5em;
+  font-size: 1.6em;
   margin-bottom: 30px;
-  color: #333;
   text-align: center;
 }
 
@@ -304,7 +303,25 @@ h3 {
   z-index: 999;
 }
 
-/*a form to pickup or deliever*/
+#selected-branch-borrow-container {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+#popupDialogBorrow h2 {
+  font-size: 1.6em;
+  text-align: center;
+}
+
+#popupDialogBorrow .close-button-container {
+  padding-top: 20px;
+  text-align: center;
+}
+
+#button-borrowOptions button {
+  border-radius: 0%;
+}
+
 /*
 @media (max-width: 860px) {
   .content-container {

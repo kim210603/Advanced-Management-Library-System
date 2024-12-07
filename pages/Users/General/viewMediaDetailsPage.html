@@ -86,7 +86,7 @@
         </button>
         <div id="overlay"></div>
         <div id="popupDialog">
-          <h2>Pick your branch:</h2>
+          <h2>View avaliable branches:</h2>
           <div id="pickup-options" style="display: none; margin-top: 15px">
             <label for="branch-select">Select a branch:</label>
             <select id="branch-select"></select>
@@ -94,13 +94,16 @@
           <div id="libraries-info" id="availability"></div>
           <div class="close-button-container">
             <!--did this to center, perhaps theres a better way-->
-              <button>Select</button>
+              <button id="selected-branch">Select</button>
             <button id="close-button" onclick="closeSearch()">Close</button>
           </div>
         </div>
         <h3>Actions for media:</h3>
-
+        <div id="selected-branch-label-container" style="display: none; font-weight: bold;">
+          <label>Selected branch: <span id="selected-branch-label" style="color: green; font-weight: lighter;"></span></label>
+        </div>
         <div class="button-row">
+          
           <!--borrow function thing-->
           <button type="button" id="borrow-button" onclick="popupBorrow()">
             Borrow
@@ -111,9 +114,18 @@
           <div id="overlayBorrow"></div>
           <div id="popupDialogBorrow">
             <h2>Pick how to borrow the media:</h2>
-            <button type="button" id="pickup-button">Pick up</button>
-          <button type="button" id="delivery-button">Delivery</button>
-          <!--put content here-->
+            <div id="selected-branch-borrow-container">
+              <label>Selected branch for borrowing: 
+                <span id="selected-branch-borrow-label" style="color: red; font-weight: lighter; margin-bottom: 1000px;">
+                  Haven't selected a branch yet
+                </span>
+              </label>
+            </div>
+            <div id="button-borrowOptions">
+               <button type="button" id="pickup-button">Pick up</button>
+               <button type="button" id="delivery-button">Delivery</button>
+            </div>
+        <!--put content here-->
             <div class="close-button-container">
               <button class="close-button" onclick="closeBorrow()">Close</button>
             </div>
