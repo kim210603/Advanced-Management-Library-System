@@ -5,6 +5,9 @@ import {
   getDatabase,
   ref,
   get,
+  update,
+  set,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 
 // Firebase configuration
@@ -224,6 +227,73 @@ document.getElementById("selected-branch").addEventListener("click", () => {
     selectedBranchBorrowLabel.textContent = "Haven't selected a branch yet";
     selectedBranchBorrowLabel.style.color = "red";
   }
+});
+
+// for the mediaquantity to be -1 every time
+const pickupButton = document.getElementById("pickup-button");
+
+pickupButton.addEventListener("click", () => {
+  const branchName = branchSelect.value;
+  const mediaName = "Pride and Prejudice"; // Change to dynamic mediaName if needed
+
+  if (!branchName) {
+    alert("Please select a branch.");
+    return;
+  }
+
+  const mediaRef = ref(database, "media");
+
+  get(mediaRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const mediaData = snapshot.val();
+
+        // Find the media key matching the branch and media name
+        const mediaKey = Object.keys(mediaData).find(
+          (key) =>
+            mediaData[key].BranchName === branchName &&
+            mediaData[key].MediaName === mediaName
+        );
+
+        if (!mediaKey) {
+          alert("Media not found for the selected branch.");
+          return;
+        }
+
+        const mediaEntry = mediaData[mediaKey];
+        const currentQuantity = mediaEntry.MediaQuantity;
+
+        if (currentQuantity > 0) {
+          const newQuantity = currentQuantity - 1;
+
+          // Update the MediaQuantity in the database
+          const mediaQuantityRef = ref(
+            database,
+            `media/${mediaKey}/MediaQuantity`
+          );
+          set(mediaQuantityRef, newQuantity)
+            .then(() => {
+              alert(
+                `Pickup successful! New quantity of "${mediaName}" at "${branchName}": ${newQuantity}`
+              );
+            })
+            .catch((error) => {
+              console.error("Error updating quantity:", error);
+              alert("Failed to update the stock.");
+            });
+        } else {
+          alert(
+            `"${mediaName}" is out of stock at the branch "${branchName}".`
+          );
+        }
+      } else {
+        console.error("No media data found.");
+        alert("No media data found.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error accessing media data:", error);
+    });
 });
 
 // event listener to search by city
