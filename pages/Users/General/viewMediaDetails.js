@@ -34,3 +34,22 @@ document.getElementById("read-more").addEventListener("click", function () {
     button.innerText = "Read less";
   }
 });
+
+// sets the date to today and cant book before
+const pickupDateInput = document.getElementById("pickup-date");
+const today = new Date();
+const formattedDate = today.toISOString().split("T")[0];
+pickupDateInput.value = formattedDate;
+pickupDateInput.min = formattedDate;
+
+// for the pickup/delivery
+//this is to just click it off
+document.getElementById("pickup-button").addEventListener("click", () => {
+  const deliveryAddress = document.getElementById("deliveryAddress");
+  deliveryAddress.style.display = "none";
+});
+
+document.getElementById("delivery-button").addEventListener("click", () => {
+  const deliveryAddress = document.getElementById("deliveryAddress");
+  deliveryAddress.style.display = "block";
+});

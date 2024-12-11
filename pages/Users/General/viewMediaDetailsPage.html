@@ -14,7 +14,8 @@
   <body>
     <div class="details-head">
       <!--will need name of the media here -->
-      <h1 id="media-name">Loading...</h1> <!--need a faster way of doing this-->
+      <h1 id="media-name">Loading...</h1>
+      <!--need a faster way of doing this-->
       <!--trolley, to have multiple borrowed media-->
       <i class="fa-solid fa-cart-shopping" id="trolley"></i>
     </div>
@@ -94,41 +95,75 @@
           <div id="libraries-info" id="availability"></div>
           <div class="close-button-container">
             <!--did this to center, perhaps theres a better way-->
-              <button id="selected-branch">Select</button>
+            <button id="selected-branch">Select</button>
             <button id="close-button" onclick="closeSearch()">Close</button>
           </div>
         </div>
         <h3>Actions for media:</h3>
-        <div id="selected-branch-label-container" style="display: none; font-weight: bold;">
-          <label>Selected branch: <span id="selected-branch-label" style="color: green; font-weight: lighter;"></span></label>
+        <div
+          id="selected-branch-label-container"
+          style="display: none; font-weight: bold"
+        >
+          <label
+            >Selected branch:
+            <span
+              id="selected-branch-label"
+              style="color: green; font-weight: lighter"
+            ></span
+          ></label>
         </div>
         <div class="button-row">
-          
           <!--borrow function thing-->
           <button type="button" id="borrow-button" onclick="popupBorrow()">
             Borrow
           </button>
           <!--wont implement for now-->
           <button type="button">Reserve</button>
+        </div>
+        <div id="overlayBorrow"></div>
+        <div id="popupDialogBorrow">
+          <h2>Pick how to borrow the media:</h2>
+          <div id="selected-branch-borrow-container">
+            <label
+              >Selected branch for borrowing:
+              <span
+                id="selected-branch-borrow-label"
+                style="color: red; font-weight: lighter; margin-bottom: 1000px"
+              >
+                Haven't selected a branch yet
+              </span>
+            </label>
           </div>
-          <div id="overlayBorrow"></div>
-          <div id="popupDialogBorrow">
-            <h2>Pick how to borrow the media:</h2>
-            <div id="selected-branch-borrow-container">
-              <label>Selected branch for borrowing: 
-                <span id="selected-branch-borrow-label" style="color: red; font-weight: lighter; margin-bottom: 1000px;">
-                  Haven't selected a branch yet
-                </span>
-              </label>
+          <div id="pickup-date-container">
+            <label for="pickup-date">Select a date to borrow:</label>
+            <input type="date" id="pickup-date" min="" />
+          </div>
+          <div id="button-borrowOptions">
+            <button type="button" id="pickup-button">Pick up</button>
+            <button type="button" id="delivery-button">Delivery</button>
+          </div>
+          <div id="deliveryAddress" style="display: none">
+            <label for="streetLine1">Street Line 1:</label>
+            <input type="text" name="streetLine1" id="streetLine1" />
+
+            <label for="streetLine2">Street Line 2:</label>
+            <input type="text" name="streetLine2" id="streetLine2" />
+
+            <label for="city">City:</label>
+            <input type="text" name="city" id="city" />
+
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country" />
+
+            <label for="postcode">Postcode:</label>
+            <input type="text" name="postcode" id="postcode" />
+            <div id="submitDelivery">
+              <button id="submitDelivery-button">Submit</button>
             </div>
-            <div id="button-borrowOptions">
-               <button type="button" id="pickup-button">Pick up</button>
-               <button type="button" id="delivery-button">Delivery</button>
-            </div>
-        <!--put content here-->
-            <div class="close-button-container">
-              <button class="close-button" onclick="closeBorrow()">Close</button>
-            </div>
+          </div>
+
+          <div class="close-button-container">
+            <button class="close-button" onclick="closeBorrow()">Close</button>
           </div>
         </div>
       </div>
