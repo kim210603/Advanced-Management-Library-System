@@ -363,6 +363,11 @@ body, html, ul, li {
   margin-top: 170px;
   background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
 }
+/* .savedForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+} */
 
 .tabs {
   list-style: none;

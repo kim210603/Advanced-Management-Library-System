@@ -60,7 +60,7 @@ login.addEventListener("click", function (event) {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      window.location.href = "guestHomepage.html";
+      window.location.href = "wishlistPage.html";
       // ...
     })
     .catch((error) => {

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css"/>
+    <link rel="stylesheet" href="/includes/memberHeader.html">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css" />
+</head>
+<body>
+    <!-- Dynamically loaded header -->
+    <div id="site-header">
+        <script>
+            async function loadHeader() {
+                try {
+                    const response = await fetch('/includes/memberHeader.html');
+                    if (!response.ok) throw new Error('Header file could not be loaded.');
+
+                    const headerHTML = await response.text();
+                    const headerLocation = document.getElementById('site-header');
+                    headerLocation.innerHTML = headerHTML;
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            loadHeader();
+        </script>
+    </div>
+
+    <!-- Tabs -->
+    <div id="tabs-container" class="tabs-container">
+        <ul class="tabs">
+            <li class="tab active"><a href="#wishlist">My Wishlist</a></li>
+            <li class="tab"><a href="#borrowed">Borrowed Media</a></li>
+            <li class="tab"><a href="#reserved">Reserved Media</a></li>
+            <li class="tab"><a href="#reviews">Media Reviews</a></li>
+            <li class="tab"><a href="#details">Account Details</a></li>
+        </ul>
+    </div>
+
+    <!-- Separate Container for Tab Content -->
+    <div id="tab-content-container" class="tab-content-container">
+        <div id="wishlist" class="tab-content active">
+            <h2>My Wishlist</h2>
+            <p>Content for the My Wishlist tab goes here.</p>
+        </div>
+        <div id="borrowed" class="tab-content">
+            <h2>Borrowed Media</h2>
+            <p>Content for the Borrowed Media tab goes here.</p>
+        </div>
+        <div id="reserved" class="tab-content">
+            <h2>Reserved Media</h2>
+            <p>Content for the Reserved Media tab goes here.</p>
+        </div>
+        <div id="reviews" class="tab-content">
+            <h2>Media Reviews</h2>
+            <p>Content for the Media Reviews tab goes here.</p>
+        </div>
+        <div class="aDetails-section">
+            <div id="details" class="tab-content">
+                <h2>Account Details</h2>
+                <div class="savedForm">
+                    <form>
+                        <div>
+                            <label for="savedName">Full Name:</label> <br>
+                            <input type="text" id="savedName" placeholder="" readonly> <br>
+                        </div>
+                        <div>
+                            <label for="savedDOB">Date of Birth:</label> <br>
+                            <input type="datetime" id="savedDOB" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedGender">Gender:</label> <br>
+                            <input type="text" id="savedGender" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedEmail">Email:</label> <br>
+                            <input type="email" id="savedEmail" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedPassword">Password:</label> <br>
+                            <input type="password" id="savedPassword" placeholder="" readonly><br>
+                        </div>
+
+                        <div class="aDetails-btn">
+                            <button type="button" id="edit-btn">Edit</button>
+                        </div>
+                        <div class="aDetails-btn">
+                            <button type="button" id="save-btn">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    // Remove 'active' class from all tabs and contents
+                    tabs.forEach((t) => t.classList.remove('active'));
+                    contents.forEach((c) => c.classList.remove('active'));
+
+                    // Add 'active' class to the clicked tab and its corresponding content
+                    tab.classList.add('active');
+                    const target = document.querySelector(tab.querySelector('a').getAttribute('href'));
+                    target.classList.add('active');
+                });
+            });
+        });
+    </script>
+
+    <footer>
+        <div id="site-footer">
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+  apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
+  authDomain: "amllibrary.firebaseapp.com",
+  databaseURL:
+    "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "amllibrary",
+  storageBucket: "amllibrary.firebasestorage.app",
+  messagingSenderId: "612435739543",
+  appId: "1:612435739543:web:f22564c7487cc71de47ad2",
+  measurementId: "G-T52D62JS9E",
+};
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.getElementById("savedName").value = userData.fullName;
+                    document.getElementById("savedDOB").value = userData.dob;
+                    document.getElementById("savedGender").value = userData.gender;
+                    document.getElementById("savedEmail").value = userData.email;
+                    document.getElementById("savedPassword").value = userData.password; // Placeholder for password
+                } else {
+                    console.log("No document found!");
+                }
+            } else {
+                console.log("No user is signed in.");
+            }
+        });
+
+        document.getElementById('edit-btn').addEventListener('click', () => {
+            document.querySelectorAll('.savedForm input').forEach(input => {
+                input.removeAttribute('readonly');
+            });
+        });
+
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (user) {
+                const updatedData = {
+                    fullName: document.getElementById('savedName').value,
+                    dob: document.getElementById('savedDOB').value,
+                    gender: document.getElementById('savedGender').value,
+                    email: document.getElementById('savedEmail').value,
+                    password: document.getElementById('savedPassword').value // Placeholder for password
+                };
+
+                try {
+                    await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
+                    alert('Changes saved successfully!');
+                    document.querySelectorAll('.savedForm input').forEach(input => {
+                        input.setAttribute('readonly', true);
+                    });
+                } catch (error) {
+                    console.error("Error updating document: ", error);
+                    alert('Failed to save changes.');
+                }
+            } else {
+                console.log("No user is signed in.");
+            }
+        });
+    </script>
+</body>
+</html>
