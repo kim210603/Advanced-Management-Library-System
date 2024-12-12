@@ -16,6 +16,7 @@ function popupBorrow() {
 }
 
 function closeBorrow() {
+  event.preventDefault(); //to not refresh everything
   document.getElementById("overlayBorrow").style.display = "none";
   document.getElementById("popupDialogBorrow").style.display = "none";
 }

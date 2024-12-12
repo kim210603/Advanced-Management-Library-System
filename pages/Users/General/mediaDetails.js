@@ -1,13 +1,9 @@
-// details that need to be getted from the realtime db
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
 import {
   getDatabase,
   ref,
   get,
-  update,
   set,
-  onValue,
 } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
 
 // Firebase configuration
@@ -17,7 +13,7 @@ const firebaseConfig = {
   databaseURL:
     "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "amllibrary",
-  storageBucket: "amllibrary.firebasestorage.app",
+  storageBucket: "amllibrary.firbase.storage.app",
   messagingSenderId: "612435739543",
   appId: "1:612435739543:web:f22564c7487cc71de47ad2",
   measurementId: "G-T52D62JS9E",
@@ -27,29 +23,45 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+// global variables for MediaID and MediaName
+let selectedMediaID = null;
+let selectedMediaName = null;
+
 const librariesInfo = document.getElementById("libraries-info");
 const cityInput = document.getElementById("availability-two");
 const townsList = document.getElementById("towns-list");
 const mediaNameElement = document.getElementById("media-name");
+const branchSelect = document.getElementById("branch-select");
+const pickupOptions = document.getElementById("pickup-options");
 
-function loadMediaName() {
+function initializeMediaValues() {
   const mediaRef = ref(database, "media");
 
   get(mediaRef)
     .then((snapshot) => {
       if (snapshot.exists()) {
         const mediaArray = snapshot.val();
-        if (mediaArray && mediaArray.length > 1) {
-          const firstMedia = mediaArray[1]; // to do for testing as no linking yet
-          mediaNameElement.textContent =
-            firstMedia.MediaName || "No media name available";
+        if (mediaArray && mediaArray.length > 0) {
+          const firstMedia = mediaArray[5]; // to get a specific media
+          selectedMediaID = firstMedia.MediaID || "No ID available";
+          selectedMediaName = firstMedia.MediaName || "No Name available";
+          const coverURL = firstMedia.CoverURL || "";
+
+          mediaNameElement.textContent = selectedMediaName;
+
+          const coverUrlElement = document.getElementById("cover-url");
+          coverUrlElement.style.backgroundImage = `url('${coverURL}')`;
+          coverUrlElement.style.backgroundSize = "cover";
+          coverUrlElement.style.backgroundPosition = "center";
+
+          console.log("Media initialized:", selectedMediaName, selectedMediaID);
         }
       } else {
-        console.error("No media data available");
+        console.warn("No media data available.");
       }
     })
     .catch((error) => {
-      console.error("Error fetching media data:", error);
+      console.error("Error initializing media values:", error);
     });
 }
 
@@ -68,7 +80,6 @@ function loadCities() {
           }
         }
 
-        // populate the datalist with city names
         cities.forEach((city) => {
           const option = document.createElement("option");
           option.value = city;
@@ -100,7 +111,7 @@ function searchByCity() {
           (media) =>
             media &&
             media.BranchCity === cityName &&
-            media.MediaName === "Pride and Prejudice" //best way to do it for now as it will pull up other branches too with the same title
+            media.MediaName === selectedMediaName
         );
 
         if (filteredMedia.length > 0) {
@@ -133,7 +144,7 @@ function searchByCity() {
             librariesInfo.appendChild(libraryBox);
           });
         } else {
-          librariesInfo.innerHTML = `<p>No media found for "Pride and Prejudice" in ${cityName}.</p>`;
+          librariesInfo.innerHTML = `<p>No media found for "${selectedMediaName}" in ${cityName}.</p>`;
         }
       } else {
         librariesInfo.innerHTML = `<p>No media data available in the database.</p>`;
@@ -143,9 +154,6 @@ function searchByCity() {
       console.error("Error fetching media data:", error);
     });
 }
-
-const branchSelect = document.getElementById("branch-select");
-const pickupOptions = document.getElementById("pickup-options");
 
 function loadBranches(cityName) {
   const mediaRef = ref(database, "media");
@@ -159,14 +167,13 @@ function loadBranches(cityName) {
           (media) =>
             media &&
             media.BranchCity === cityName &&
-            media.MediaName === "Pride and Prejudice" &&
+            media.MediaName === selectedMediaName &&
             media.MediaQuantity > 0
         );
 
         branchSelect.innerHTML = "";
 
         if (filteredBranches.length > 0) {
-          // populate drop down if avaliable
           filteredBranches.forEach((branch) => {
             const option = document.createElement("option");
             option.value = branch.BranchName;
@@ -234,10 +241,15 @@ const pickupButton = document.getElementById("pickup-button");
 
 pickupButton.addEventListener("click", () => {
   const branchName = branchSelect.value;
-  const mediaName = "Pride and Prejudice"; // Change to dynamic mediaName if needed
+  const mediaID = selectedMediaID;
 
   if (!branchName) {
     alert("Please select a branch.");
+    return;
+  }
+
+  if (!mediaID) {
+    alert("Please select a media item.");
     return;
   }
 
@@ -248,11 +260,10 @@ pickupButton.addEventListener("click", () => {
       if (snapshot.exists()) {
         const mediaData = snapshot.val();
 
-        // Find the media key matching the branch and media name
         const mediaKey = Object.keys(mediaData).find(
           (key) =>
             mediaData[key].BranchName === branchName &&
-            mediaData[key].MediaName === mediaName
+            mediaData[key].MediaID === mediaID
         );
 
         if (!mediaKey) {
@@ -266,7 +277,6 @@ pickupButton.addEventListener("click", () => {
         if (currentQuantity > 0) {
           const newQuantity = currentQuantity - 1;
 
-          // Update the MediaQuantity in the database
           const mediaQuantityRef = ref(
             database,
             `media/${mediaKey}/MediaQuantity`
@@ -274,7 +284,7 @@ pickupButton.addEventListener("click", () => {
           set(mediaQuantityRef, newQuantity)
             .then(() => {
               alert(
-                `Pickup successful! New quantity of "${mediaName}" at "${branchName}": ${newQuantity}`
+                `Pickup successful! New quantity of Media ID "${mediaID}" at "${branchName}": ${newQuantity}`
               );
             })
             .catch((error) => {
@@ -283,7 +293,7 @@ pickupButton.addEventListener("click", () => {
             });
         } else {
           alert(
-            `"${mediaName}" is out of stock at the branch "${branchName}".`
+            `Media ID "${mediaID}" is out of stock at the branch "${branchName}".`
           );
         }
       } else {
@@ -296,10 +306,82 @@ pickupButton.addEventListener("click", () => {
     });
 });
 
-// event listener to search by city
+// same as pickup, but would also need to do address
+const submitDeliveryButton = document.getElementById("submitDelivery");
+
+submitDeliveryButton.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  const branchName = branchSelect.value;
+  const mediaID = selectedMediaID;
+
+  if (!branchName) {
+    alert("Please select a branch.");
+    return;
+  }
+
+  if (!mediaID) {
+    alert("Please select a media item.");
+    return;
+  }
+
+  const mediaRef = ref(database, "media");
+
+  get(mediaRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const mediaData = snapshot.val();
+
+        const mediaKey = Object.keys(mediaData).find(
+          (key) =>
+            mediaData[key].BranchName === branchName &&
+            mediaData[key].MediaID === mediaID
+        );
+
+        if (!mediaKey) {
+          alert("Media not found for the selected branch.");
+          return;
+        }
+
+        const mediaEntry = mediaData[mediaKey];
+        const currentQuantity = mediaEntry.MediaQuantity;
+
+        if (currentQuantity > 0) {
+          const newQuantity = currentQuantity - 1;
+
+          const mediaQuantityRef = ref(
+            database,
+            `media/${mediaKey}/MediaQuantity`
+          );
+          set(mediaQuantityRef, newQuantity)
+            .then(() => {
+              alert(
+                `Delivery successful! New quantity of Media ID "${mediaID}" at "${branchName}": ${newQuantity}`
+              );
+            })
+            .catch((error) => {
+              console.error("Error updating quantity:", error);
+              alert("Failed to update the stock.");
+            });
+        } else {
+          alert(
+            `Media ID "${mediaID}" is out of stock at the branch "${branchName}".`
+          );
+        }
+      } else {
+        console.error("No media data found.");
+        alert("No media data found.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error accessing media data:", error);
+    });
+});
+
+// initialize the app
+loadCities();
+initializeMediaValues();
+
 document
   .getElementById("search-button")
   .addEventListener("click", searchByCity);
-
-loadCities();
-loadMediaName();
