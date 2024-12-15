@@ -45,7 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     /* align-items: center; */
-    border: 1px solid black;
+    /* border: 1px solid black; */
     /* padding: 10px; */
     /* height: 200px; Set a fixed height to align items */ 
 }
@@ -76,8 +76,13 @@ body {
     gap: 10px;
 }
 
-.fa-regular fa-heart {
-    font-size: 6em;
+.fa-regular.fa-heart {
+    font-size: 25px;
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+
+.fa-regular.fa-heart.clicked {
+    color: black; /* Color when clicked */
 }
 
 .view-details-button {
@@ -96,8 +101,8 @@ body {
     background-color: #acc3e8;
 }
 
-.button-container i:hover{
-
+.button-container i:hover {
+    /* Add your hover styles here */
 }
 
 .genre-title {
@@ -125,12 +130,12 @@ body {
 }
 
 
-.genre-section ul li {
+/* .genre-section ul li {
     max-width: 120px;
     height: 180px;
     place-content: center;
     background-color: #E8D5AC;
-}
+} */
 
 .genre-section ul{
     width: fit-content;

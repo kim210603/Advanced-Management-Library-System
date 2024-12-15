@@ -12,263 +12,121 @@
 
     <div class="genre-section">
         <h2 class="genre-title">Fiction</h2>
-        
-        <button class="scroll-button left" onclick="scrollLeft()">&#9664;</button>
-        
         <div class="book-container">
-        <ul class="book-list">
-            <li class="book-wrapper">
-            <div class="book-item">
-                <p class="book-title">Book Title</p>
-            </div>
-            <div class="button-container">
-                <button type="button" class="view-details-button">View Details</button>
-                <i class="fa-regular fa-heart"></i>
-            </div>
-                </li>
-                <li class="book-wrapper">
-                    <div class="book-item">
-                        <p class="book-title">Book Title</p>
-                    </div>
-                    <div class="button-container">
-                        <button type="button" class="view-details-button">View Details</button>
-                        <i class="fa-regular fa-heart"></i>
-                    </div>
-                        </li><li class="book-wrapper">
-                            <div class="book-item">
-                                <p class="book-title">Book Title</p>
-                            </div>
-                            <div class="button-container">
-                                <button type="button" class="view-details-button">View Details</button>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                                </li><li class="book-wrapper">
-                                    <div class="book-item">
-                                        <p class="book-title">Book Title</p>
-                                    </div>
-                                    <div class="button-container">
-                                        <button type="button" class="view-details-button">View Details</button>
-                                        <i class="fa-regular fa-heart"></i>
-                                    </div>
-                                        </li><li class="book-wrapper">
-                                            <div class="book-item">
-                                                <p class="book-title">Book Title</p>
-                                            </div>
-                                            <div class="button-container">
-                                                <button type="button" class="view-details-button">View Details</button>
-                                                <i class="fa-regular fa-heart"></i>
-                                            </div>
-                                                </li><li class="book-wrapper">
-                                                    <div class="book-item">
-                                                        <p class="book-title">Book Title</p>
-                                                    </div>
-                                                    <div class="button-container">
-                                                        <button type="button" class="view-details-button">View Details</button>
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                        </li><li class="book-wrapper">
-                                                            <div class="book-item">
-                                                                <p class="book-title">Book Title</p>
-                                                            </div>
-                                                            <div class="button-container">
-                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                <i class="fa-regular fa-heart"></i>
-                                                            </div>
-                                                                </li>
-                                                                <li class="book-wrapper">
-                                                                    <div class="book-item">
-                                                                        <p class="book-title">Book Title</p>
-                                                                    </div>
-                                                                    <div class="button-container">
-                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                        <i class="fa-regular fa-heart"></i>
-                                                                    </div>
-                                                                        </li>
-                                                                        <li class="book-wrapper">
-                                                                            <div class="book-item">
-                                                                                <p class="book-title">Book Title</p>
-                                                                            </div>
-                                                                            <div class="button-container">
-                                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                                <i class="fa-regular fa-heart"></i>
-                                                                            </div>
-                                                                                </li>
-                                                                                <li class="book-wrapper">
-                                                                                    <div class="book-item">
-                                                                                        <p class="book-title">Book Title</p>
-                                                                                    </div>
-                                                                                    <div class="button-container">
-                                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                                        <i class="fa-regular fa-heart"></i>
-                                                                                    </div>
-                                                                                        </li>
-                                                                                        <li class="book-wrapper">
-                                                                                            <div class="book-item">
-                                                                                                <p class="book-title">Book Title</p>
-                                                                                            </div>
-                                                                                            <div class="button-container">
-                                                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                                                <i class="fa-regular fa-heart"></i>
-                                                                                            </div>
-                                                                                                </li>
-                                                                                                <li class="book-wrapper">
-                                                                                                    <div class="book-item">
-                                                                                                        <p class="book-title">Book Title</p>
-                                                                                                    </div>
-                                                                                                    <div class="button-container">
-                                                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                                                        <i class="fa-regular fa-heart"></i>
-                                                                                                    </div>
-                                                                                                        </li>
-        
-
-
-        </ul>
-        <button class="scroll-button right" onclick="scrollRight()">&#9654;</button>
+            <ul class="book-list">
+                <!-- Book items will be populated here by JavaScript -->
+            </ul>
+        </div>
     </div>
-    </div>
+
     <div class="genre-section">
         <h2 class="genre-title">Romance</h2>
         <div class="book-container">
-        <ul class="book-list">
-            <li class="book-wrapper">
+            <ul class="book-list">
+                <!-- Book items will be populated here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="genre-section">
+        <h2 class="genre-title">Thriller</h2>
+        <div class="book-container">
+            <ul class="book-list">
+                <!-- Book items will be populated here by JavaScript -->
+            </ul>
+        </div>
+    </div>
+    
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+    import {getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
+        authDomain: "amllibrary.firebaseapp.com",
+        projectId: "amllibrary",
+        databaseURL: "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
+        storageBucket: "amllibrary.firebasestorage.app",
+        messagingSenderId: "612435739543",
+        appId: "1:612435739543:web:f22564c7487cc71de47ad2",
+        measurementId: "G-T52D62JS9E"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const db = getFirestore(app);
+
+    const databaseRef = ref(database, 'media');
+    onValue(databaseRef, (snapshot) => {
+        const data = snapshot.val();
+        populateBooks(data);
+    });
+
+    function populateBooks(data) {
+        const fictionList = document.querySelector('.genre-section:nth-of-type(1) .book-list');
+        const romanceList = document.querySelector('.genre-section:nth-of-type(2) .book-list');
+        const thrillerList = document.querySelector('.genre-section:nth-of-type(3) .book-list');
+
+
+        fictionList.innerHTML = '';
+        romanceList.innerHTML = '';
+        thrillerList.innerHTML = '';
+
+        for (const key in data) {
+            const record = data[key];
+            const bookItem = document.createElement('li');
+            bookItem.className = 'book-wrapper';
+            bookItem.innerHTML = `
             <div class="book-item">
-                <p class="book-title">Book Title</p>
+                <img src="${record.CoverURL}">
             </div>
             <div class="button-container">
                 <button type="button" class="view-details-button">View Details</button>
                 <i class="fa-regular fa-heart"></i>
             </div>
-                </li>
-                <li class="book-wrapper">
-                    <div class="book-item">
-                        <p class="book-title">Book Title</p>
-                    </div>
-                    <div class="button-container">
-                        <button type="button" class="view-details-button">View Details</button>
-                        <i class="fa-regular fa-heart"></i>
-                    </div>
-                        </li><li class="book-wrapper">
-                            <div class="book-item">
-                                <p class="book-title">Book Title</p>
-                            </div>
-                            <div class="button-container">
-                                <button type="button" class="view-details-button">View Details</button>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                                </li><li class="book-wrapper">
-                                    <div class="book-item">
-                                        <p class="book-title">Book Title</p>
-                                    </div>
-                                    <div class="button-container">
-                                        <button type="button" class="view-details-button">View Details</button>
-                                        <i class="fa-regular fa-heart"></i>
-                                    </div>
-                                        </li><li class="book-wrapper">
-                                            <div class="book-item">
-                                                <p class="book-title">Book Title</p>
-                                            </div>
-                                            <div class="button-container">
-                                                <button type="button" class="view-details-button">View Details</button>
-                                                <i class="fa-regular fa-heart"></i>
-                                            </div>
-                                                </li><li class="book-wrapper">
-                                                    <div class="book-item">
-                                                        <p class="book-title">Book Title</p>
-                                                    </div>
-                                                    <div class="button-container">
-                                                        <button type="button" class="view-details-button">View Details</button>
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                        </li><li class="book-wrapper">
-                                                            <div class="book-item">
-                                                                <p class="book-title">Book Title</p>
-                                                            </div>
-                                                            <div class="button-container">
-                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                <i class="fa-regular fa-heart"></i>
-                                                            </div>
-                                                                </li>
-                                                                <li class="book-wrapper">
-                                                                    <div class="book-item">
-                                                                        <p class="book-title">Book Title</p>
-                                                                    </div>
-                                                                    <div class="button-container">
-                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                        <i class="fa-regular fa-heart"></i>
-                                                                    </div>
-                                                                        </li>
-                                                                        <li class="book-wrapper">
-                                                                            <div class="book-item">
-                                                                                <p class="book-title">Book Title</p>
-                                                                            </div>
-                                                                            <div class="button-container">
-                                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                                <i class="fa-regular fa-heart"></i>
-                                                                            </div>
-                                                                                </li>
-                                                                                <li class="book-wrapper">
-                                                                                    <div class="book-item">
-                                                                                        <p class="book-title">Book Title</p>
-                                                                                    </div>
-                                                                                    <div class="button-container">
-                                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                                        <i class="fa-regular fa-heart"></i>
-                                                                                    </div>
-                                                                                        </li>
-                                                                                        <li class="book-wrapper">
-                                                                                            <div class="book-item">
-                                                                                                <p class="book-title">Book Title</p>
-                                                                                            </div>
-                                                                                            <div class="button-container">
-                                                                                                <button type="button" class="view-details-button">View Details</button>
-                                                                                                <i class="fa-regular fa-heart"></i>
-                                                                                            </div>
-                                                                                                </li>
-                                                                                                <li class="book-wrapper">
-                                                                                                    <div class="book-item">
-                                                                                                        <p class="book-title">Book Title</p>
-                                                                                                    </div>
-                                                                                                    <div class="button-container">
-                                                                                                        <button type="button" class="view-details-button">View Details</button>
-                                                                                                        <i class="fa-regular fa-heart"></i>
-                                                                                                    </div>
-                                                                                                        </li>
-        
+            `;
 
+            if (record.Genre === 'Fiction') {
+                fictionList.appendChild(bookItem);
+            } else if (record.Genre === 'Romance') {
+                romanceList.appendChild(bookItem);
+            } else if (record.Genre === 'Thriller') {
+                thrillerList.appendChild(bookItem);
+            }
+        }
 
-        </ul>
-    </div>
-    </div>
-    
-</body>
-</html></html>
-<script>
-    const viewDetailsButtons = document.querySelectorAll('.view-details-button');
-    viewDetailsButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            window.location.href = 'bookDetailsPage.html';
-        });
-    });
-
-    document.querySelectorAll('.fa-heart').addEventListener('click', () => {
-        document.querySelector('.fa-heart').classList.toggle('fa-heart-clicked');
-    });
-
-    function scrollLeft() {
-        const container = document.querySelector('.book-container');
-        container.scrollBy({
-            left: -200, // Adjust the value to control scroll distance
-            behavior: 'smooth'
-        });
+        addEventListeners();
     }
 
-    function scrollRight() {
-        const container = document.querySelector('.book-container');
-        container.scrollBy({
-            left: 200, // Adjust the value to control scroll distance
-            behavior: 'smooth'
+    function addEventListeners() {
+        const viewDetailsButtons = document.querySelectorAll('.view-details-button');
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = 'wishlistPage.html';
+            });
+        });
+
+        const heartIcons = document.querySelectorAll('.fa-regular.fa-heart');
+        heartIcons.forEach(icon => {
+            icon.addEventListener('click', async () => {
+            icon.classList.toggle('clicked');
+            if (icon.classList.contains('fa-heart-clicked')) {
+                icon.style.color = 'black';
+            } else {
+                icon.style.color = '';
+            }
+            });
         });
     }
-
 </script>
+</html>
+<style>
+    .book-item img {
+        width: 130px;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+    }
