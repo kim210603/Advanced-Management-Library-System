@@ -37,32 +37,27 @@ const pickupOptions = document.getElementById("pickup-options");
 function initializeMediaValues() {
   const mediaRef = ref(database, "media");
 
-  get(mediaRef)
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const mediaArray = snapshot.val();
-        if (mediaArray && mediaArray.length > 0) {
-          const firstMedia = mediaArray[5]; // to get a specific media
-          selectedMediaID = firstMedia.MediaID || "No ID available";
-          selectedMediaName = firstMedia.MediaName || "No Name available";
-          const coverURL = firstMedia.CoverURL || "";
+  const queryString = window.location.search;
 
-          mediaNameElement.textContent = selectedMediaName;
+  // Parse the query string
+  const urlParams = new URLSearchParams(queryString);
 
-          const coverUrlElement = document.getElementById("cover-url");
-          coverUrlElement.style.backgroundImage = `url('${coverURL}')`;
-          coverUrlElement.style.backgroundSize = "cover";
-          coverUrlElement.style.backgroundPosition = "center";
+  // Get the values of the parameters
+  const mediaName = urlParams.get("mediaName");
+  const coverURL = urlParams.get("coverURL") || "No Name available";
+  const mediaID = urlParams.get("mediaID") || "No ID available";
 
-          console.log("Media initialized:", selectedMediaName, selectedMediaID);
-        }
-      } else {
-        console.warn("No media data available.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error initializing media values:", error);
-    });
+  selectedMediaName = mediaName;
+  selectedMediaID = mediaID;
+
+  mediaNameElement.textContent = mediaName;
+
+  const coverUrlElement = document.getElementById("cover-url");
+  coverUrlElement.style.backgroundImage = `url('${coverURL}')`;
+  coverUrlElement.style.backgroundSize = "cover";
+  coverUrlElement.style.backgroundPosition = "center";
+
+  console.log("Media initialized:", selectedMediaName, selectedMediaID);
 }
 
 function loadCities() {
@@ -124,16 +119,16 @@ function searchByCity() {
 
             if (media.MediaQuantity === 0) {
               stockClass = "low-stock";
-              stockText = "Out of stock";
+              stockText = "On Loan";
             } else if (media.MediaQuantity <= 3) {
               stockClass = "low-stock";
-              stockText = `${media.MediaQuantity} (Low stock)`;
+              stockText = `${media.MediaQuantity} Available (Low stock)`;
             } else if (media.MediaQuantity <= 5) {
               stockClass = "medium-stock";
-              stockText = `${media.MediaQuantity} (Medium stock)`;
+              stockText = `${media.MediaQuantity} Available (Medium stock)`;
             } else {
               stockClass = "high-stock";
-              stockText = `${media.MediaQuantity} (High stock)`;
+              stockText = `${media.MediaQuantity} Available (High stock)`;
             }
 
             libraryBox.innerHTML = `
@@ -144,6 +139,17 @@ function searchByCity() {
             librariesInfo.appendChild(libraryBox);
           });
         } else {
+          const requestButton = document.getElementById("request-button");
+          requestButton.style.display = "inline";
+          const selectButton = document.getElementById("selected-branch");
+          selectButton.style.display = "none";
+          const closeButton = document.getElementById("close-button");
+          closeButton.onclick = function () {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("popupDialog").style.display = "none";
+            requestButton.style.display = "none";
+            selectButton.style.display = "inline";
+          };
           librariesInfo.innerHTML = `<p>No media found for "${selectedMediaName}" in ${cityName}.</p>`;
         }
       } else {

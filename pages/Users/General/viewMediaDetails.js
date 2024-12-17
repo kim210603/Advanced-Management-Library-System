@@ -1,5 +1,17 @@
-// // couldnt have in the same file with the config so this is for the forms and extra
+//updates the view media page with the correct media name and cover url
+document.addEventListener('DOMContentLoaded', function() {
+  const queryString = window.location.search;
 
+
+  const urlParams = new URLSearchParams(queryString);
+
+  const mediaName = urlParams.get('mediaName');
+  const coverURL = urlParams.get('coverURL');
+
+  document.getElementById('media-name').textContent = mediaName;
+  document.getElementById('cover-url').style.backgroundImage = `url(${coverURL})`;
+});
+// // couldnt have in the same file with the config so this is for the forms and extra
 function popupSearch() {
   document.getElementById("overlay").style.display = "block";
   document.getElementById("popupDialog").style.display = "block";

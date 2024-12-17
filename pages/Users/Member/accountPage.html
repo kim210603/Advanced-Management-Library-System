@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css" />
+    <link rel="stylesheet" href="../General/media.css">
+    <link rel="stylesheet" href="/includes/memberHeader.html">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css" />
+</head>
+
+<body>
+    <header>
+        <img src="/images/AmlLogo.jpg" alt="AmlLogo" id="Logo" />
+        <nav>
+            <ul>
+                <label for="check" class="checkbtn">
+                    <i class="fas fa-bars"></i>
+                </label>
+                <li><a class="active" href="">Home</a></li>
+                <li><a href="/pages/Users/General/booksMediaPage.html">Resources</a></li>
+                <li><a href="">Our Libraries</a></li>
+                <li><a href="">About us</a></li>
+                <li><a href="">Contact us</a></li>
+                <li><a href="/advanced-management-library/registerPage.html">Sign Out</a></li>
+            </ul>
+        </nav>
+        <div class="user-icon">
+            <a href="/pages/Users/Member/accountPage.html">
+                <i class="far fa-user"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div id="tabs-container" class="tabs-container">
+        <ul class="tabs">
+            <li class="tab active"><a href="#wishlist">My Wishlist</a></li>
+            <li class="tab"><a href="#borrowed">Borrowed Media</a></li>
+            <li class="tab"><a href="#reserved">Reserved Media</a></li>
+            <li class="tab"><a href="#reviews">Media Reviews</a></li>
+            <li class="tab"><a href="#details">Account Details</a></li>
+        </ul>
+    </div>
+
+    <!-- Separate Container for Tab Content -->
+    <div id="tab-content-container" class="tab-content-container">
+        <div id="wishlist" class="tab-content active">
+            <h2>My Wishlist</h2>
+            <ul class="book-list">
+                <!-- Wishlist items will be populated here by JavaScript -->
+            </ul>
+        </div>
+        <div id="borrowed" class="tab-content">
+            <h2>Borrowed Media</h2>
+            <p>Content for the Borrowed Media tab goes here.</p>
+        </div>
+        <div id="reserved" class="tab-content">
+            <h2>Reserved Media</h2>
+            <p>Content for the Reserved Media tab goes here.</p>
+        </div>
+        <div id="reviews" class="tab-content">
+            <h2>Media Reviews</h2>
+            <p>Content for the Media Reviews tab goes here.</p>
+        </div>
+        <div class="aDetails-section">
+            <div id="details" class="tab-content">
+                <h2>Account Details</h2>
+                <div class="savedForm">
+                    <form>
+                        <div>
+                            <label for="savedName">Full Name:</label> <br>
+                            <input type="text" id="savedName" placeholder="" readonly> <br>
+                        </div>
+                        <div>
+                            <label for="savedDOB">Date of Birth:</label> <br>
+                            <input type="datetime" id="savedDOB" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedGender">Gender:</label> <br>
+                            <input type="text" id="savedGender" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedEmail">Email:</label> <br>
+                            <input type="email" id="savedEmail" placeholder="" readonly><br>
+                        </div>
+                        <div>
+                            <label for="savedPassword">Password:</label> <br>
+                            <input type="password" id="savedPassword" placeholder="" readonly><br>
+                        </div>
+
+                        <div class="aDetails-btn">
+                            <button type="button" id="edit-btn">Edit</button>
+                        </div>
+                        <div class="aDetails-btn">
+                            <button type="button" id="save-btn">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div id="site-footer">
+        </div>
+    </footer>
+    <!-- imports to link to database -->
+    <script type="module" src="accountPage.js"></script>
+
+</body>
+
+</html>
