@@ -109,7 +109,7 @@
         </div>
         <div id="overlayBorrow"></div>
         <div id="popupDialogBorrow">
-          <form id="borrowForm">
+          <div id="borrowForm">
             <h2>Pick how to borrow the media:</h2>
             <div id="selected-branch-borrow-container">
               <label>Selected branch for borrowing:
@@ -123,17 +123,50 @@
                 </span>
               </label>
             </div>
-            <div id="pickup-date-container">
-              <label for="pickup-date">Select a date to borrow:</label>
-              <input type="date" id="pickup-date" min="" />
-            </div>
             <div id="button-borrowOptions">
-              <button type="button" id="pickup-button">Pick up</button>
-              <button type="button" id="delivery-button">Delivery</button>
+              <form id="pickupForm" action="pickupConfirm.html">
+                <input
+                  id="pickupFormMediaIdField"
+                  value=""
+                  name="mediaId"
+                  type="text"
+                  hidden="true"
+                />
+                <input
+                  id="pickupFormMediaNameField"
+                  value=""
+                  name="mediaName"
+                  type="text"
+                  hidden="true"
+                />
+                <input
+                  value="Vicky"
+                  name="userName"
+                  type="text"
+                  hidden="true"
+                />
+                <input
+                  id="pickupFormBranchNameField"
+                  value=""
+                  name="branchName"
+                  type="text"
+                  hidden="true"
+                />
+
+                <button type="submit" id="pickup-button">Pick up</button>
+              </form>
+              <form action="">
+                <button type="button" id="delivery-button">Delivery</button>
+              </form>
             </div>
             <div id="deliveryAddress" style="display: none">
               <label for="streetLine1">Street Line 1:</label>
-              <input type="text" name="streetLine1" id="streetLine1" />
+              <input
+                type="text"
+                onchange=""
+                name="streetLine1"
+                id="streetLine1"
+              />
 
               <label for="streetLine2">Street Line 2:</label>
               <input type="text" name="streetLine2" id="streetLine2" />
@@ -155,11 +188,13 @@
                 Close
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
     <script src="viewMediaDetails.js"></script>
     <script type="module" src="mediaDetails.js"></script>
+    <script type="module" src="borrowMedia.js"></script>
+    <!--wont work-->>
   </body>
 </html>

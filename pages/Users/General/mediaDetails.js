@@ -4,7 +4,7 @@ import {
   ref,
   get,
   set,
-} from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js"; //9.21.0
 
 // Firebase configuration
 const firebaseConfig = {
@@ -26,6 +26,9 @@ const database = getDatabase(app);
 // global variables for MediaID and MediaName
 let selectedMediaID = null;
 let selectedMediaName = null;
+let selectedBranchName = null;
+
+//export { selectedMediaID, selectedBranchName };
 
 const librariesInfo = document.getElementById("libraries-info");
 const cityInput = document.getElementById("availability-two");
@@ -33,11 +36,19 @@ const townsList = document.getElementById("towns-list");
 const mediaNameElement = document.getElementById("media-name");
 const branchSelect = document.getElementById("branch-select");
 const pickupOptions = document.getElementById("pickup-options");
+const pickupFormMediaIdField = document.getElementById(
+  "pickupFormMediaIdField"
+);
+const pickupFormMediaNameField = document.getElementById(
+  "pickupFormMediaNameField"
+);
+const pickupFormBranchNameField = document.getElementById(
+  "pickupFormBranchNameField"
+);
 
 function initializeMediaValues() {
   const mediaRef = ref(database, "media");
 
-  const queryString = window.location.search;
 
   // Parse the query string
   const urlParams = new URLSearchParams(queryString);
@@ -88,7 +99,7 @@ function loadCities() {
 }
 
 function searchByCity() {
-  const cityName = cityInput.value.trim();
+  const cityName = cityInput.value.trim().toLowerCase(); // Convert input to lowercase
   librariesInfo.innerHTML = "";
 
   if (!cityName) {
@@ -105,7 +116,7 @@ function searchByCity() {
         const filteredMedia = mediaArray.filter(
           (media) =>
             media &&
-            media.BranchCity === cityName &&
+            media.BranchCity.toLowerCase() === cityName && // Convert database value to lowercase
             media.MediaName === selectedMediaName
         );
 
@@ -168,11 +179,10 @@ function loadBranches(cityName) {
     .then((snapshot) => {
       if (snapshot.exists()) {
         const mediaArray = snapshot.val();
-
         const filteredBranches = mediaArray.filter(
           (media) =>
             media &&
-            media.BranchCity === cityName &&
+            media.BranchCity.toLowerCase() === cityName.toLowerCase() && // Convert both values to lowercase
             media.MediaName === selectedMediaName &&
             media.MediaQuantity > 0
         );
@@ -206,7 +216,7 @@ function loadBranches(cityName) {
 document.getElementById("search-button").addEventListener("click", () => {
   const cityName = cityInput.value.trim();
   if (cityName) {
-    loadBranches(cityName);
+    loadBranches(cityName.toLowerCase()); // Pass lowercase city name
   } else {
     console.warn("Please enter a city name to search for branches.");
   }
@@ -214,6 +224,7 @@ document.getElementById("search-button").addEventListener("click", () => {
 
 document.getElementById("selected-branch").addEventListener("click", () => {
   const selectedBranch = branchSelect.value;
+  selectedBranchName = selectedBranch;
 
   const selectedBranchLabel = document.getElementById("selected-branch-label");
   const selectedBranchLabelContainer = document.getElementById(
@@ -235,6 +246,8 @@ document.getElementById("selected-branch").addEventListener("click", () => {
     popupDialog.style.display = "none";
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
+
+    pickupFormBranchNameField.value = selectedBranchName;
   } else {
     console.warn("No branch selected.");
     selectedBranchBorrowLabel.textContent = "Haven't selected a branch yet";
@@ -243,9 +256,10 @@ document.getElementById("selected-branch").addEventListener("click", () => {
 });
 
 // for the mediaquantity to be -1 every time
-const pickupButton = document.getElementById("pickup-button");
+/*const pickupButton = document.getElementById("pickup-button");
 
 pickupButton.addEventListener("click", () => {
+  console.log("button clicked");
   const branchName = branchSelect.value;
   const mediaID = selectedMediaID;
 
@@ -310,7 +324,7 @@ pickupButton.addEventListener("click", () => {
     .catch((error) => {
       console.error("Error accessing media data:", error);
     });
-});
+}); */
 
 // same as pickup, but would also need to do address
 const submitDeliveryButton = document.getElementById("submitDelivery");
