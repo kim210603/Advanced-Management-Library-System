@@ -17,7 +17,8 @@ header {
   justify-content: space-between; /* Keep logo left, nav right */
   padding: 10px 20px;
   width: 100%;
-  position: fixed;
+  position: sticky;
+  z-index: 999;
   top: 0;
   left: 0;
 }
@@ -360,7 +361,6 @@ body, html, ul, li {
   clear: both;
   top: 0;
   padding: 10px 0;
-  margin-top: 170px;
   background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
 }
 /* .savedForm {
