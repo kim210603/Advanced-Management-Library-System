@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AML | Confirm Pick Up</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div>
+      <h1>
+        Confirm about borrowing <span id="mediaName"></span> from
+        <span id="branchName"></span>
+      </h1>
+      <form action="">
+        <div id="pickup-date-container">
+          <label for="pickup-date">Select a date to borrow:</label>
+          <input type="date" id="pickup-date" min="" />
+        </div>
+        <button type="submit" id="submitPickup">Submit</button>
+      </form>
+      <p>Collect at: <span id="mediaAddress"></span></p>
+      <p>Due date: <span id="dueDate"></span></p>
+      <script type="module" src="pickupConfirm.js"></script>
+    </div>
+  </body>
+</html>
