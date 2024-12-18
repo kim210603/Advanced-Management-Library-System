@@ -82,7 +82,7 @@ body {
     cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
 }
 
-.view-details-button {
+.view-details-button, .account-button {
     margin-top: auto; /* Pushes the button to the bottom of the book item */
     padding: 5px 10px;
     border: none;
@@ -94,7 +94,7 @@ body {
     text-align: center;
 }
 
-.view-details-button:hover {
+.view-details-button:hover, .account-button:hover {
     background-color: #acc3e8;
 }
 

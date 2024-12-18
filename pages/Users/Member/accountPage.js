@@ -42,6 +42,11 @@
         const db = getFirestore(app);
         const auth = getAuth();
         let userID = '';
+        let userName = '';
+        let userDOB = '';
+        let userGender = '';
+        let userEmail = '';
+        let userPassword = '';
 
         // used to get user's registered details from the database
         onAuthStateChanged(auth, async (user) => {
@@ -50,11 +55,18 @@
                 const userDoc = await getDoc(doc(db, "users", userID));
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
-                    document.getElementById("savedName").value = userData.fullName;
-                    document.getElementById("savedDOB").value = userData.dob;
-                    document.getElementById("savedGender").value = userData.gender;
-                    document.getElementById("savedEmail").value = userData.email;
-                    document.getElementById("savedPassword").value = userData.password;
+
+                    userName = userData.fullName;
+                    userDOB = userData.dob;
+                    userGender = userData.gender;
+                    userEmail = userData.email;
+                    userPassword = userData.password;
+
+                    document.getElementById("savedName").value = userName;
+                    document.getElementById("savedDOB").value = userDOB;
+                    document.getElementById("savedGender").value = userGender;
+                    document.getElementById("savedEmail").value = userEmail;
+                    document.getElementById("savedPassword").value = userPassword;
                 }
             }
         });
@@ -70,13 +82,28 @@
         document.getElementById('save-btn').addEventListener('click', async () => {
             const user = auth.currentUser;
             if (user) {
+                const inputUserName = document.getElementById('savedName').value;
+                const inputUserDOB = document.getElementById('savedDOB').value;
+                const inputUserGender = document.getElementById('savedGender').value;
+                const inputUserEmail = document.getElementById('savedEmail').value;
+                const inputUserPassword = document.getElementById('savedPassword').value;
+
+
+            if(userName === inputUserName && userDOB === inputUserDOB && userGender === inputUserGender && userEmail === inputUserEmail && userPassword === inputUserPassword) {
+                alert('No changes have been made.');
+            } else {
                 if (confirm('Are you sure you want to save changes?')) {
+                    userName = inputUserName;
+                    userDOB = inputUserDOB;
+                    userGender = inputUserGender;
+                    userEmail = inputUserEmail;
+                    userPassword = inputUserPassword;
                     const updatedData = {
-                        fullName: document.getElementById('savedName').value,
-                        dob: document.getElementById('savedDOB').value,
-                        gender: document.getElementById('savedGender').value,
-                        email: document.getElementById('savedEmail').value,
-                        password: document.getElementById('savedPassword').value // Placeholder for password
+                        fullName: userName,
+                        dob: userDOB,
+                        gender: userGender,
+                        email: userEmail,
+                        password: userPassword // Placeholder for password
                     };
                     //try to update the database with newly inputted data
                     try {
@@ -91,6 +118,7 @@
                         alert('Failed to save changes.');
                     }
                 }
+            }
             }
         });
 
