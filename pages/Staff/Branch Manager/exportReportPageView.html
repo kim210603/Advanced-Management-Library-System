@@ -96,7 +96,7 @@
                 measurementId: "YOUR_MEASUREMENT_ID"
             };
 
-            // Initialize Firebase
+            
             const app = initializeApp(firebaseConfig);
             const database = getDatabase(app);
 
@@ -104,7 +104,7 @@
             flatpickr("#dateFrom", { dateFormat: "Y-m-d" });
             flatpickr("#dateTo", { dateFormat: "Y-m-d" });//
 
-            // Event Listener for the Export Report Form
+           
             document.getElementById("exportReport").addEventListener("submit", function (event) {
                 event.preventDefault();
 
@@ -211,7 +211,7 @@
                     html: "#mediaTable", 
                     startY: 10,
                     theme: "grid",
-                    headStyles: { fillColor: [22, 160, 133] }, 
+                    headStyles: { fillColor: [191, 153, 107] }, 
                     styles: { fontSize: 8 },
                 });
             

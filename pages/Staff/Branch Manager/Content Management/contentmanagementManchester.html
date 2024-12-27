@@ -13,7 +13,7 @@
     <main>
         <div class="wrapper">
            
-            <h1>Content Management</h1>
+            <h1>Content Management - Manchester</h1>
             
             <div class="table-container">
                 <div class="table-scroll">
@@ -76,16 +76,6 @@
     <script type="module">
 
         const branches = [{
-            id: "1",
-            name: "Sheffield Central",
-            postcode: "S1 1AA"
-        },
-        {
-            id: "2",
-            name: "Sheffield West",
-            postcode: "S2 2BB"
-        },
-        {
             id: "3",
             name: "Manchester North",
             postcode: "M2 3CD"
@@ -95,11 +85,6 @@
             name:"Manchester South",
             postcode: "M23EF"
         },
-        {
-            id: "5",
-            name: "Leeds Central",
-            postcode: "LS1 2ZZ"
-        }
         
         ]
      
@@ -142,7 +127,7 @@
             for (const key in data) {
                 const record = data[key];
         
-                
+                if (record.BranchName && record.BranchName.includes("Manchester")) {
                 const sanitizedRecord = {
                     DateStored: record.DateStored ?? "",
                     MediaID: record.MediaID ?? "",
@@ -169,7 +154,8 @@
                 `;
                 tableBody.appendChild(row);
             }
-        }
+         }
+    }
     
 
         Array.prototype.unique = function() {
