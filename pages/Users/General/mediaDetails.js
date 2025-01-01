@@ -47,8 +47,7 @@ const pickupFormBranchNameField = document.getElementById(
 );
 
 function initializeMediaValues() {
-  const mediaRef = ref(database, "media");
-
+  const queryString = window.location.search;
 
   // Parse the query string
   const urlParams = new URLSearchParams(queryString);
@@ -108,7 +107,7 @@ function searchByCity() {
   }
 
   const mediaRef = ref(database, "media");
-
+console.log(mediaRef);
   get(mediaRef)
     .then((snapshot) => {
       if (snapshot.exists()) {
