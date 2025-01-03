@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="dateFrom">Date From:</label>
                     <div class="date-picker-container">
-                        <input type="text" id="dateFrom" name="dateFrom" placeholder="mm/dd/yyyy" required>
+                        <input type="text" id="dateFrom" name="dateFrom" placeholder="yyyy/mm/dd" required>
                         <span class="calendar-icon">&#128197;</span> 
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label for="dateTo">Date To:</label>
                     <div class="date-picker-container">
-                        <input type="text" id="dateTo" name="dateTo" placeholder="mm/dd/yyyy" required>
+                        <input type="text" id="dateTo" name="dateTo" placeholder="yyyy/mm/dd" required>
                         <span class="calendar-icon">&#128197;</span>
                     </div>
                 </div>                
@@ -54,18 +54,15 @@
             <h2>Inventory Table</h2>
             <div class="table-container">
                 <div class="table-scroll">
-                    <table id="mediaTable">
+                    <table id="mediaTable2">
                         <thead>
                             <tr>
-                                <th>Date Stored</th>
+                                <th>Borrowed date</th>
                                 <th>Media ID</th>
                                 <th>Media Name</th>
-                                <th>Branch ID</th>
+                                <th>Due Date </th>
                                 <th>Branch Name</th>
-                                <th>Branch Postcode</th>
-                                <th>Media Type</th>
-                                <th>Genre</th>
-                                <th>Media Quantity</th>
+                               
                             </tr>
                         </thead>
                         <tbody>
@@ -77,117 +74,95 @@
         </div>
     </main>
 
-    <script src="../Branch Manager/Content Management/exportReportPage.js"></script>
-
     <script type="module">
-       
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-            import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
-
-           
-            const firebaseConfig = {
-                apiKey: "YOUR_API_KEY",
-                authDomain: "amllibrary.firebaseapp.com",
-                databaseURL: "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "amllibrary",
-                storageBucket: "amllibrary.appspot.com",
-                messagingSenderId: "YOUR_SENDER_ID",
-                appId: "YOUR_APP_ID",
-                measurementId: "YOUR_MEASUREMENT_ID"
-            };
-
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+    
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCmcT5fG8Nkny7jlFEN9gn3rRZHxyII_as",
+            authDomain: "amllibrary.firebaseapp.com",
+            databaseURL: "https://amllibrary-default-rtdb.europe-west1.firebasedatabase.app/",
+            projectId: "amllibrary",
+            storageBucket: "amllibrary.firebasestorage.app",
+            messagingSenderId: "612435739543",
+            appId: "1:612435739543:web:f22564c7487cc71de47ad2",
+            measurementId: "G-T52D62JS9E",
+        };
+    
             
             const app = initializeApp(firebaseConfig);
-            const database = getDatabase(app);
-
+            const db = getFirestore(app);
           
+        
             flatpickr("#dateFrom", { dateFormat: "Y-m-d" });
-            flatpickr("#dateTo", { dateFormat: "Y-m-d" });//
-
-           
-            document.getElementById("exportReport").addEventListener("submit", function (event) {
+            flatpickr("#dateTo", { dateFormat: "Y-m-d" });
+            console.log("Hello");
+            let pickupRecords = await getDocs(collection(db, "pickupMedia"));
+            document.getElementById("exportReport").addEventListener("submit", async function (event) {
                 event.preventDefault();
-
+        
                 const dateFrom = document.getElementById("dateFrom").value;
                 const dateTo = document.getElementById("dateTo").value;
-
+        
                 if (!dateFrom || !dateTo) {
                     alert("Please fill in both date fields.");
                     return;
                 }
-
-                
-                const fromDate = new Date(dateFrom).getTime();
-                const toDate = new Date(dateTo).getTime();
-
-                const mediaTable = document.querySelector("#mediaTable tbody");
-                mediaTable.innerHTML = ""; 
-
+                const fromDate = Timestamp.fromDate(new Date(dateFrom));
+                const toDate = Timestamp.fromDate(new Date(dateTo));
+        
+                const mediaTable2 = document.querySelector("#mediaTable2 tbody");
+                mediaTable2.innerHTML = "";
                 const mediaResults = document.getElementById("mediaResults");
                 mediaResults.style.display = "none";
-
-              
-                const mediaRef = ref(database, 'media');
-                get(mediaRef).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const data = snapshot.val();
-                        const filteredData = [];
-
-                        for (const key in data) {
-                            const record = data[key];
-                            const recordDate = new Date(record.DateStored).getTime();
-
-                            if (recordDate >= fromDate && recordDate <= toDate) {
-                                filteredData.push(record);
-                            }
+        
+                
+                    const filteredData = []
+                    pickupRecords.forEach((doc) => {
+                        let record = doc.data();
+                        let recordBorrowDate = Date.parse(record.BorrowedDate);
+                        let fromDateToDateTimestamp = fromDate.seconds * 1000;
+                        let toDateToDateTimestamp = toDate.seconds * 1000;
+                        console.log(recordBorrowDate, fromDateToDateTimestamp, toDateToDateTimestamp);
+                        if (recordBorrowDate >= fromDateToDateTimestamp && recordBorrowDate <= toDateToDateTimestamp) {
+                            filteredData.push(record);
+                            console.log(record.BorrowedDate);
                         }
-
-                        if (filteredData.length === 0) {
-                            alert("No data found for the selected date range.");
-                            return;
-                        }
-
-                       
-                        filteredData.forEach((record) => {
-                            const row = document.createElement("tr");
-                            row.innerHTML = `
-                                <td>${record.DateStored}</td>
-                                <td>${record.MediaID}</td>
-                                <td>${record.MediaName}</td>
-                                <td>${record.BranchID}</td>
-                                <td>${record.BranchName}</td>
-                                <td>${record.BranchPostcode}</td>
-                                <td>${record.MediaType}</td>
-                                <td>${record.Genre}</td>
-                                <td>${record.MediaQuantity}</td>
-                            `;
-                            mediaTable.appendChild(row);
-                        });
-
-                        mediaResults.style.display = "block"; 
-                    } else {
-                        alert("No data found.");
-                    }
-                }).catch((error) => {
-                    console.error("Error fetching data from Firebase:", error);
-                });
-            });
-
-            document.querySelectorAll(".calendar-icon").forEach((icon) => {
-                icon.addEventListener("click", function () {
-                    this.previousElementSibling._flatpickr.open();
-                });
-            });
+                    });
+                    console.log(filteredData);
+        
+                    filteredData.forEach((record) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${record.BorrowedDate}</td>
+                            <td>${record.MediaID || "N/A"}</td>
+                            <td>${record.MediaName || "N/A"}</td>
+                            <td>${record.DueDate}</td>
+                            <td>${record.BranchName || "N/A"}</td>
+                        `;
+                        mediaTable2.appendChild(row);
+                    });
             
+                    mediaResults.style.display = "block";
+               
+
+           
+                document.querySelectorAll(".calendar-icon").forEach((icon) => {
+                    icon.addEventListener("click", function () {
+                        this.previousElementSibling._flatpickr.open();
+                    });
+                });
             
+            });
               
             flatpickr("#dateFrom", {
-                dateFormat: "m/d/Y", 
+                dateFormat: "Y/m/d", 
                 allowInput: true,    
             });
             
             flatpickr("#dateTo", {
-                dateFormat: "m/d/Y",
+                dateFormat: "Y/m/d",
                 allowInput: true,
             });
 
@@ -196,10 +171,10 @@
                 const { jsPDF } = window.jspdf;
             
                
-                const mediaTable = document.getElementById("mediaTable");
+                const mediaTable2 = document.getElementById("mediaTable2");
             
                 
-                const rows = mediaTable.querySelector("tbody").rows;
+                const rows = mediaTable2.querySelector("tbody").rows;
                 if (rows.length === 0) {
                     alert("No data available to export. Please perform a search first.");
                     return;
@@ -208,7 +183,7 @@
               
                 const doc = new jsPDF();
                 doc.autoTable({
-                    html: "#mediaTable", 
+                    html: "#mediaTable2", 
                     startY: 10,
                     theme: "grid",
                     headStyles: { fillColor: [191, 153, 107] }, 
@@ -224,15 +199,15 @@
             
 
             document.getElementById("exportExcel").addEventListener("click", function () {
-                const mediaTable = document.getElementById("mediaTable");
-                const rows = mediaTable.querySelector("tbody").rows;
+                const mediaTable2 = document.getElementById("mediaTable2");
+                const rows = mediaTable2.querySelector("tbody").rows;
                 if (rows.length === 0) {
                     alert("No data available to export. Please perform a search first.");
                     return;
                 }
             
                 const fileName = "Media_Report.xlsx";
-                const ws = XLSX.utils.table_to_sheet(mediaTable);
+                const ws = XLSX.utils.table_to_sheet(mediaTable2);
                 const wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, "Media Report");
                 XLSX.writeFile(wb, fileName);
